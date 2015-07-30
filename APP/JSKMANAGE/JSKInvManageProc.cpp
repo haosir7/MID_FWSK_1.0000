@@ -275,10 +275,21 @@ INT32 CJSKInvManageProc::TJXXCX_Proc(string strFplxdm, INT32 &MonthCount, CTjxxh
 		sprintf(chValue, "where KPRQ>=%u and KPRQ<=%u", pTjxxhz[itemp].m_Qsrq, pTjxxhz[itemp].m_Jzrq);
 		DBG_PRINT(("chValue = %s", chValue));
 		
+		//正废份数
+		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
+		sprintf(chTmpValue, " and KPLX = %u", WASTE_NOR);
+		strTmp = "select count(NO) from INV_HEAD "; 
+		strTmp.append(chValue);
+		strTmp.append(chTmpValue);
+		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
+		pInvHead->SetSQL(strTmp);
+		pInvHead->GetOneResult(DB_UINT32, (void*)&(pTjxxhz[itemp].m_Zffpfs)); 
+		strTmp="";
+
 		//空白作废份数
 		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
 		sprintf(chTmpValue, " and KPLX = %u", WASTE_INV);
-		strTmp = "select sum(NO) from INV_HEAD "; 
+		strTmp = "select count(NO) from INV_HEAD "; 
 		strTmp.append(chValue);
 		strTmp.append(chTmpValue);
 		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
