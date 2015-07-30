@@ -2,29 +2,7 @@
 *.o
 #ignore .a files
 *.a
-!libsqlite3.a
-!libsctool.a
-!libcrypto.a
-!lib_wlkpskm.a
-!libpthread.a
-!libz.a
-!libiconv.a
-!libhhhbca.a
-!libhhkey.a
-!libmsukapi.a
-!libbarencode.a
-!libJspInterface.a
-#SSLLIB
-!libaisino_pkcs11_engine.a
-!libuniAcceptFramework.a
-!libcurl.a
-!libwt_hw.a
-!libwt_pkcs11.a
-!libwt_skf.a
-!new_libwt_pkcs11.a
-!arm-elf-cryptlib.a
-!libcrypto.a
-!libssl.a
+
 
 *.tmp
 *.gdb
@@ -55,5 +33,8 @@ awe4000r
 *.positions
 *.ncb
 *.opt
-
+/VersionConfig.h
+/Makefile.am
+LIB/pinyin_gb18030.bin
+LIB/Makefile.am
 
