@@ -2,8 +2,9 @@
 *.o
 #ignore .a files
 *.a
-
-
+*.elf
+*.elf2flt
+*.mac
 *.tmp
 *.gdb
 *.m4

@@ -38,7 +38,7 @@ struct TJSKerrInfo errInfo[] =
 	{4005,    "参数错误"				},
 	{4006,    "数据错误"				},
 	{4007,	  "款机编号认证失败"		},
-	{6000,	  "以6000开头的错误号，为CA相关错误"},
+	{6000,	  "以6000开头的错误号,为CA相关错误"},
 	{8000,    "非法调用"				},
 	{10000,    "未实现接口"				},
 	{449,    "金额减税额除以税率的绝对值应小于0.625"    },
@@ -50,9 +50,9 @@ struct TJSKerrInfo errInfo[] =
 	{554,    "金额超出开票限额"			},
 	{559,    "税率超限"					},
 	{562,    "发票明细超过64K错"    },
-	{701,    "金税卡处于报税期，不能开票"    },
-	{702,    "金税卡处于锁死期，不能开票"    },
-	{706,    "金税卡运行已跨日，必须重新进入"    },
+	{701,    "金税卡处于报税期,不能开票"    },
+	{702,    "金税卡处于锁死期,不能开票"    },
+	{706,    "金税卡运行已跨日,必须重新进入"    },
 	{712,	 "报税盘退回发票已满"			},
 	{713,	 "报税盘分配发票已满"			},
 	{754,	 "分机不具备此功能"			},
@@ -61,14 +61,14 @@ struct TJSKerrInfo errInfo[] =
 	{769,    "离线开票金额超限"    },
 	{771,	 "分机分票已满"			},
 	{772,	 "金税盘退票已满"			},
-	{781,    "已到离线锁死期，不能开票"    },
+	{781,    "已到离线锁死期,不能开票"    },
 	{784,    "开票明细中发票代码或号码与票面不一致"    },
 	{790,	 "按月查询发票明细时该月无票"			},
 	{800,	 "报税盘抄税数据不一致"			},
 	{1,    "命令参数错误"    },
 	{2,    "时钟没响应"    },
 	{3,    "时钟停止"    },
-	{4,    "金税盘状态异常，请退出系统重新进入"    },
+	{4,    "金税盘状态异常,请退出系统重新进入"    },
 	{5,    "记录区数据满"    },
 	{6,    "记录区整理后数据仍满"    },
 	{7,    "税控设备主分机不匹配"    },
@@ -78,9 +78,9 @@ struct TJSKerrInfo errInfo[] =
 	{15,    "分机报税盘中无退回发票卷"    },
 	{19,    "会计日抄税提示"    },
 	{27,    "主机有税未报,分机退回发票卷或撤回新票卷不可读入主机"    },
-	{21,    "金税盘由于未报税锁死，不能开票"    },
+	{21,    "金税盘由于未报税锁死,不能开票"    },
 	{36,    "记录区有效数据最大地址越界"    },
-	{56,    "本月（期）开票数量已满，抄税提示"    },
+	{56,    "本月(期)开票数量已满,抄税提示"    },
 	{57,    "主机税控设备和分机税控设备认证失败"    },
 	{68,    "需要操作员权限"    },
 	{71,    "不能执行生产测试"    },
@@ -91,7 +91,7 @@ struct TJSKerrInfo errInfo[] =
 	{82,    "专票超过最大限额"    },
 	{83,    "查询时间大于当前时间"    },
 	{84,    "查询时间过早"    },
-	{85,    "会计日到，禁止操作分配和退回发票卷"    },
+	{85,    "会计日到,禁止操作分配和退回发票卷"    },
 	{86,    "检索时间错"    },
 	{87,    "税控设备(金税盘、报税盘)中发票卷时间错"    },
 	{88,    "检索参数错误"    },
@@ -146,17 +146,17 @@ struct TJSKerrInfo errInfo[] =
 	{181,    "营改增启动时间格式无效"						},
 	{182,    "金税盘无新购发卷"								},
 	{191,    "需到会计日抄税"								},
-	{195,    "未抄税，无汇总资料"							},
+	{195,    "未抄税,无汇总资料"							},
 	{199,    "该版本非征期不支持远程抄报"					},
 	{204,    "税控设备(金税盘、报税盘)上有报税成功标志"		},
 	{209,    "税控设备(金税盘、报税盘)上有退卷"				},
 	{210,    "没有票种授权"									},
 	{219,    "变长发票明细错"								},
 	{220,    "检索函数出错；或者检索不到数据"				},
-	{222,    "税控设备(金税盘、报税盘)上有新卷，无法抄税"   },
-	{223,    "检索不到指定月份领用存信息（若已到会计日，需要抄税后才能查询本月领用存）"    },
+	{222,    "税控设备(金税盘、报税盘)上有新卷,无法抄税"   },
+	{223,    "检索不到指定月份领用存信息(若已到会计日,需要抄税后才能查询本月领用存)"    },
 	{229,    "标志位数据校验和错"							},
-	{231,    "税控设备(金税盘、报税盘)授权错误（没授权）"   },
+	{231,    "税控设备(金税盘、报税盘)授权错误(没授权)"   },
 	{232,    "数据校验和错"									},
 	{233,    "授权信息非法"									},
 	{234,    "发票明细数据混乱"								},
@@ -169,12 +169,12 @@ struct TJSKerrInfo errInfo[] =
 	{241,    "抄税异常掉电造成金税盘数据混乱"				},
 	{242,    "发票卷操作异常掉电造成金税盘数据混乱"			},
 	{244,    "掉电保护标志区错"								},
-	{245,    "有票种多期未抄税，不能继续开票或者抄税"		},
-	{246,    "到了离线锁死日，上月有已开未上传发票，不能继续开票"    },
-	{247,    "离线发票总金额超过离线开具限额，不能继续开票" },
-	{248,    "有票种没有完成征期抄报税，不能继续开票"		},
+	{245,    "有票种多期未抄税或者抄税"		},
+	{246,    "到了离线锁死日,上月有已开未上传发票"    },
+	{247,    "离线发票总金额超过离线开具限额" },
+	{248,    "有票种没有完成征期抄报税"		},
 	{249,    "开票时签名密文比对不通过"						},
-	{250,    "有离线未上传发票，不允许远程抄报"				},
+	{250,    "有离线未上传发票,不允许远程抄报"				},
 	{999,    "接入两个或多个报税盘"							},
 	{1000,    "未链接报税盘"								},
 	{1001,    "没有找到报税盘句柄"							},
@@ -184,7 +184,7 @@ struct TJSKerrInfo errInfo[] =
 	{1036,    "报税盘记录区有效数据最大地址越界"			},
 	{1179,    "报税盘没有授权信息"							},
 	{1050,    "报税盘无退票信息"    },
-	{1051,    "报税盘发票区满，已有5卷发票"    },
+	{1051,    "报税盘发票区满,已有5卷发票"    },
 	{1052,    "报税盘无新卷信息"    },
 	{1053,    "报税盘发行数据越界"    },
 	{1054,    "报税盘发行记录空"    },
@@ -199,7 +199,7 @@ struct TJSKerrInfo errInfo[] =
 	{1086,    "报税盘已经有抄税资料"    },
 	{1087,    "主机金税盘对分机报税盘"    },
 	{1088,    "报税盘随机数比对出错"    },
-	{1089,    "报税盘握手信息出错，明文税号比对不通过"    },
+	{1089,    "报税盘握手信息出错,明文税号比对不通过"    },
 	{1090,    "主从报税盘标志错误"    },
 	{1091,    "主从报税盘标志错误"    },
 	{1092,    "报税盘认证时间错误"    },
@@ -404,7 +404,7 @@ INT32 CJSKInfoFunc::JSK_Proc(UINT8 pp1,UINT8 pp2,UINT8 *pInBuf,UINT16 InLen, UIN
 		JSK_Close_Proc(strErr);
 	}
 	
-	//如果金穗盘尚未执行open操作，则主动调用open函数
+	//如果金穗盘尚未执行open操作,则主动调用open函数
 	flag = 0;
 	DBG_PRINT(("pp1=0x%02x, pp2= %u, InLen = %u",pp1,pp2, InLen));
 	//ret = jsk_operate_r(pp1, pp2 ,( UINT8 *)pJSKSendBuf, InLen, ( UINT8 *)pJSKRevBuf,&OutLen);
@@ -533,7 +533,7 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	pUserInfo->m_zfFlag=pTaxCardInfo->zfFlag;
 	DBG_PRINT(("pUserInfo->m_zfFlag= %u",pUserInfo->m_zfFlag));
 	
-    //如果主机 0 ，分机号置为0 ；若为分机1 分机号为分机的数量
+    //如果主机 0 ,分机号置为0 ；若为分机1 分机号为分机的数量
 	if (0 == pUserInfo->m_zfFlag)
 	{
 		//	pUserInfo->m_subMachNo = "0";
@@ -579,7 +579,7 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	pUserInfo->m_Nsrsbh  = (INT8 *)pTaxCardInfo->TaxCode;
 	DBG_PRINT(("pUserInfo->m_Nsrsbh= %s",pUserInfo->m_Nsrsbh.c_str()));
 	
-	/*普票税率授权,第1字节表示授权税率个数，第2字节开始为授权的普票税率*/
+	/*普票税率授权,第1字节表示授权税率个数,第2字节开始为授权的普票税率*/
 	UINT32 taxNum =pTaxCardInfo->AuthTaxRate[0];
 	pUserInfo->m_Slgs = taxNum;
 	DBG_PRINT(("pUserInfo->m_Slgs= %u",	pUserInfo->m_Slgs));
@@ -598,7 +598,7 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	}
 	
 	
-	/*发票类型, 第1字节表示发票类型个数，第2字节开始为发票类型*/
+	/*发票类型, 第1字节表示发票类型个数,第2字节开始为发票类型*/
 	UINT32 typeNum =pTaxCardInfo->invName[0];
 	pUserInfo->m_Fplxgs = typeNum;
 	DBG_PRINT(("pUserInfo->m_Fplxgs= %u",	pUserInfo->m_Fplxgs));
@@ -1129,7 +1129,7 @@ INT32 CJSKInfoFunc::GetOffLimitInfo(CInvKind *invKind,UINT32 &invKindNum, string
 		invKind[i].m_Lxssr = pOffLimintInfo->OffLineLockDay;
 		DBG_PRINT(("pOffLimintInfo->OffLineLockDay= %u",pOffLimintInfo->OffLineLockDay));
 		
-		/*离线开票时长（单位小时*/
+		/*离线开票时长(单位小时*/
 		invKind[i].m_Lxkjsj = pOffLimintInfo->OffLineInvTime;
 		DBG_PRINT(("pOffLimintInfo->OffLineInvTime= %u",pOffLimintInfo->OffLineInvTime));
 		
@@ -1705,7 +1705,7 @@ INT32 CJSKInfoFunc::AppNetInvVol(UINT8 Type,UINT16 &outLen,UINT8 *NetEmpowData, 
 		DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
 	}
 	
-	/*网络购票预授权信息（密文）*/
+	/*网络购票预授权信息(密文)*/
 	memcpy((void *)NetEmpowData,(void *)pJSKRevBuf,	nOutLen);
 	outLen = nOutLen;
 	//	DBG_PRINT(("NetEmpowInfo= %s",NetEmpowInfo));
@@ -1907,7 +1907,7 @@ INT32 CJSKInfoFunc::BSPGetInvVolInfo(UINT8 Type,string &strErr)
 
 
 //----------------------------------------------------------
-//功能	：主机获取网络票源信息（网络购票） 购票操作
+//功能	：主机获取网络票源信息(网络购票) 购票操作
 //输入	：
 //输出	：
 //返回值：
@@ -2438,7 +2438,7 @@ INT32 CJSKInfoFunc::HostToInvJSP(CInvVol *pInvVol, string &strErr)
 }
 
 //----------------------------------------------------------
-//功能	：发票报税盘退回（主分机一样）
+//功能	：发票报税盘退回(主分机一样)
 //输入	：
 //输出	：
 //返回值：
@@ -2488,7 +2488,7 @@ INT32 CJSKInfoFunc::InvVolRetBSP(CInvVol *pInvVol, string &strErr)
 }
 
 //----------------------------------------------------------
-//功能	：发票金税盘退回（主分机一样）
+//功能	：发票金税盘退回(主分机一样)
 //输入	：
 //输出	：
 //返回值：
@@ -2617,7 +2617,7 @@ INT32 CJSKInfoFunc::GetLockDate(UINT8 Type,UINT8 *pLockDate,string &strErr)
 	
 }
 //----------------------------------------------------------
-//功能	：通过发票代码，发票号码和索引号查询发票信息
+//功能	：通过发票代码,发票号码和索引号查询发票信息
 //输入	：
 //输出	：
 //返回值：
@@ -2717,7 +2717,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
     /*购方税号*/
 	pInvHead->m_payerCode= pInvDetail->BuyTaxCode;
 	
-    /*金额，不含税额*/ 
+    /*金额,不含税额*/ 
 	pInvHead->m_kpje = double2int(atof(pInvDetail->TotalSum) * JSK_SUM_EXTENSION);
 	DBG_PRINT(("pInvHead->m_kpje= %lld",pInvHead->m_kpje));
 	
@@ -2979,7 +2979,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoDate(UINT8 *chDate,CInvHead *pInvHead,UINT8 
     /*购方税号*/
 	pInvHead->m_payerCode= pInvDetail->BuyTaxCode;
 	
-    /*金额，不含税额*/ 
+    /*金额,不含税额*/ 
 	pInvHead->m_kpje = double2int(atof(pInvDetail->TotalSum) * JSK_SUM_EXTENSION);
 	DBG_PRINT(("pInvHead->m_kpje= %lld",pInvHead->m_kpje));
 	
@@ -3322,7 +3322,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	tmpLen +=NEWLINE_LEN;
 	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
-	//19-备注（Base64编码）\n 
+	//19-备注(Base64编码)\n 
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
 	memcpy((void *)tmpBuf,(void *)(pInvHead->m_backup1.c_str()), pInvHead->m_backup1.length());
 	Base64_Encode_2((UINT8 *)tmpBuf, strlen(tmpBuf));
@@ -3388,7 +3388,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	tmpLen +=NEWLINE_LEN;
 	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
-	//22-清单标志（"Y"或"N"）\n 
+	//22-清单标志("Y"或"N")\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_qdbz.c_str(),pInvHead->m_qdbz.length());
 	tmpLen +=pInvHead->m_qdbz.length();
 	
@@ -3397,30 +3397,30 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//发票明细和清单行格式 
-	//商品名称（92）+ 规格型号（40）+ 计量单位（22）+ 数量（精度18，宽度21）+ 单价（精度18，宽度21）+ 金额（保留2位小数，宽度18）+ 税率（6）+ 税额（保留2位小数，宽度18）+ 序号（8）+ 发票行性质（3）+ 含税价标志（3）
+	//商品名称(92)+ 规格型号(40)+ 计量单位(22)+ 数量(精度18,宽度21)+ 单价(精度18,宽度21)+ 金额(保留2位小数,宽度18)+ 税率(6)+ 税额(保留2位小数,宽度18)+ 序号(8)+ 发票行性质(3)+ 含税价标志(3)
 	
 	pTempDep = pInvHead->pHead;
 	while (pTempDep != NULL)
 	{
-		//商品名称（92）
+		//商品名称(92)
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SPMC_LEN);
 		memcpy((void *)(pDataPtr+tmpLen), (void *)pTempDep->m_spmc.c_str(), pTempDep->m_spmc.length());
 		tmpLen += JSK_SPMC_LEN;
 		//tmpLen +=  pTempDep->m_spmc.length();
 		
-		//+ 规格型号（40）
+		//+ 规格型号(40)
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_GGXH_LEN);
 		memcpy((void *)(pDataPtr+tmpLen), (void *)pTempDep->m_ggxh.c_str(), pTempDep->m_ggxh.length());
 		tmpLen += JSK_GGXH_LEN;
 		
-		//计量单位（22）
+		//计量单位(22)
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_JLDW_LEN);
 		memcpy((void *)(pDataPtr+tmpLen), (void *)pTempDep->m_spdw.c_str(), pTempDep->m_spdw.length());
 		tmpLen += JSK_JLDW_LEN;
         
 		if( (pInvHead->m_kplx == JSK_RETURN_INV) || (pInvHead->m_kplx == JSK_WASTE_RET) )
 		{
-			//数量（精度18，宽度21）
+			//数量(精度18,宽度21)
 			DBG_PRINT(("pTempDep->m_spsl = %.f", pTempDep->m_spsl));
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			if(pTempDep->m_spsl < 0.001)
@@ -3437,7 +3437,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		}
 		else
 		{
-			//数量（精度18，宽度21）
+			//数量(精度18,宽度21)
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			sprintf(tmpBuf,"%.3f",pTempDep->m_spsl);
 			memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SPSL_LEN);
@@ -3445,7 +3445,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 			tmpLen += JSK_SPSL_LEN;
 		}
 		
-		//单价（精度18，宽度21）
+		//单价(精度18,宽度21)
 		memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 		DBG_PRINT(("m_hsbz = %u", pTempDep->m_hsbz));
 		if(pTempDep->m_hsbz ==1)
@@ -3462,7 +3462,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		
 		if( (pInvHead->m_kplx == JSK_RETURN_INV) || (pInvHead->m_kplx == JSK_WASTE_RET) )
 		{
-			//金额（保留2位小数，宽度18）
+			//金额(保留2位小数,宽度18)
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			sprintf(tmpBuf, "-%.2f", ((double) pTempDep->m_je)/JSK_SUM_EXTENSION);
 			memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SPJE_LEN);
@@ -3471,7 +3471,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		}
 		else
 		{
-			//金额（保留2位小数，宽度18）
+			//金额(保留2位小数,宽度18)
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			sprintf(tmpBuf, "%.2f", ((double) pTempDep->m_je)/JSK_SUM_EXTENSION);
 			memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SPJE_LEN);
@@ -3479,7 +3479,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 			tmpLen += JSK_SPJE_LEN;
 		}
 		
-		//税率（6)
+		//税率(6)
 		memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 		sprintf(tmpBuf,"%.2f",pTempDep->m_sl);
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SL_LEN);
@@ -3488,7 +3488,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		
 		if( (pInvHead->m_kplx == JSK_RETURN_INV) || (pInvHead->m_kplx == JSK_WASTE_RET) )
 		{
-			//税额（保留2位小数，宽度18）
+			//税额(保留2位小数,宽度18)
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			sprintf(tmpBuf, "-%.2f", ((double) pTempDep->m_spse)/JSK_SUM_EXTENSION);
 			memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SE_LEN);
@@ -3497,7 +3497,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		}
 		else
 		{
-			//税额（保留2位小数，宽度18）
+			//税额(保留2位小数,宽度18)
 			memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 			sprintf(tmpBuf, "%.2f", ((double) pTempDep->m_spse)/JSK_SUM_EXTENSION);			
 			memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SE_LEN);
@@ -3505,7 +3505,7 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 			tmpLen += JSK_SE_LEN;
 		}
 		
-		// 序号（8）
+		// 序号(8)
 		DBG_PRINT(("pTempDep->m_sphxh = %u", pTempDep->m_sphxh));
 		memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 		sprintf(tmpBuf,"%u",pTempDep->m_sphxh);
@@ -3513,14 +3513,14 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		memcpy((void *)(pDataPtr+tmpLen), (void *)tmpBuf, strlen(tmpBuf));
 		tmpLen += JSK_SPXH_LEN;
 		
-		//发票行性质（3）
+		//发票行性质(3)
 		memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 		sprintf(tmpBuf,"%u",pTempDep->m_property);
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_FPXZ_LEN);
 		memcpy((void *)(pDataPtr+tmpLen), (void *)tmpBuf, strlen(tmpBuf));
 		tmpLen += JSK_FPXZ_LEN;
 		
-		//含税价标志（3）
+		//含税价标志(3)
 		memset((void *)(tmpBuf), 0x00, sizeof(tmpBuf));
 		sprintf(tmpBuf,"%u",pTempDep->m_hsbz);
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_HSBZ_LEN);
@@ -3634,7 +3634,7 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 		case 18: //收款人
 			pInvHead->m_sky=tmpStr;
 			break;
-		case 19: //备注（Base64编码）
+		case 19: //备注(Base64编码)
 			sprintf(chBackupBuf, "%s", tmpStr.c_str());
 			Base64_Decode_2(chBackupBuf, (int *)&tmpLen);
 			pInvHead->m_backup1 = (INT8 *)chBackupBuf;
@@ -3648,7 +3648,7 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 			pInvHead->m_kpse=double2int(atof(tmpStr.c_str()) * JSK_SUM_EXTENSION);
 			DBG_PRINT(("pInvHead->m_kpse = %lld", pInvHead->m_kpse));
 			break;
-		case 22: //清单标志（"Y"或"N"）
+		case 22: //清单标志("Y"或"N")
 			pInvHead->m_qdbz=tmpStr;
 			break;
 		case 23: //发票明细信息
@@ -3734,60 +3734,60 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 		//发票号码
         pInvDet->m_fpdm = pInvHead->m_fpdm;
 		
-		//商品名称（92）
+		//商品名称(92)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Fpmc, JSK_SPMC_LEN);
 		ParseData(chBackupBuf);
 		pInvDet->m_spmc = chBackupBuf;
 		DBG_PRINT(("pInvDet->m_spmc=%s",pInvDet->m_spmc.c_str()));
 		
-		//规格型号（40）
+		//规格型号(40)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Ggxh, JSK_GGXH_LEN);
 		ParseData(chBackupBuf);
 		pInvDet->m_ggxh = chBackupBuf;
 		DBG_PRINT(("pInvDet->m_ggxh=%s",pInvDet->m_ggxh.c_str()));
 		
-		//计量单位（22）
+		//计量单位(22)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Jldw, JSK_JLDW_LEN);
 		ParseData(chBackupBuf);
 		pInvDet->m_spdw = chBackupBuf;
 		DBG_PRINT(("pInvDet->m_spdw=%s",pInvDet->m_spdw.c_str()));
 		
-		//数量（精度18，宽度21）
+		//数量(精度18,宽度21)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Spsl, JSK_SPSL_LEN);
 		pInvDet->m_spsl =atof(chBackupBuf);
 		DBG_PRINT(("pInvDet->m_spsl=%.3f",pInvDet->m_spsl));
 		
-		//单价（精度18，宽度21）
+		//单价(精度18,宽度21)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Spdj, JSK_SPDJ_LEN);
 		tmpdj =atof(chBackupBuf);
 		DBG_PRINT(("tmpdj=%.3f",tmpdj));
 		
-		//金额（保留2位小数，宽度18）
+		//金额(保留2位小数,宽度18)
 		pInvDet->m_je = double2int(atof(pFpmxSum->fpmx[i].Spje) * JSK_SUM_EXTENSION);
 		DBG_PRINT(("pInvDet->m_je=%lld",pInvDet->m_je));
 		
-		// 税率（6）
+		// 税率(6)
 		pInvDet->m_sl =atof(pFpmxSum->fpmx[i].SL);
 		DBG_PRINT(("pInvDet->m_sl=%.3f",pInvDet->m_sl));
 		
-		//税额（保留2位小数，宽度18）
+		//税额(保留2位小数,宽度18)
 		pInvDet->m_spse = double2int(atof(pFpmxSum->fpmx[i].SE) * JSK_SUM_EXTENSION);
 		DBG_PRINT(("pInvDet->m_spse=%lld",pInvDet->m_spse));
 		
-		//序号（8）
+		//序号(8)
 		pInvDet->m_sphxh =atoi(pFpmxSum->fpmx[i].Spxh);
 		DBG_PRINT(("pInvDet->m_sphxh=%u",pInvDet->m_sphxh));
 		
-		//发票行性质（3）
+		//发票行性质(3)
 		pInvDet->m_property =atoi(pFpmxSum->fpmx[i].Fpxz);
 		DBG_PRINT(("pInvDet->m_property=%u",pInvDet->m_property));
 		
-		//含税价标志（3）
+		//含税价标志(3)
 		pInvDet->m_hsbz = atoi(pFpmxSum->fpmx[i].Hsbz);
 		DBG_PRINT(("pInvDet->m_hsbz=%u",pInvDet->m_hsbz));
 		
