@@ -1529,10 +1529,12 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Jzrq);
 		m_serialProtocol->FillParament(tempbuf, DATE_LEN);
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Qckcfs);
 		m_serialProtocol->FillParament(tempbuf, FPZS_LEN);
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Lgfpfs);
@@ -1566,36 +1568,43 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Qmkcfs);
 		m_serialProtocol->FillParament(tempbuf, FPZS_LEN);
 
+		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljje= %lld",tempi,Tjxxhz[tempi].m_Zsfpljje));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Zsfpljje/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zsfpljje/SUM_EXTENSION));
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 
+		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljse= %lld",tempi,Tjxxhz[tempi].m_Zsfpljse));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Zsfpljse/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zsfpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Zffpljje/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljje/SUM_EXTENSION));
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Zffpljse/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Fsfpljje/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fsfpljje/SUM_EXTENSION));
+		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Fsfpljse/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fsfpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Fffpljje/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fffpljje/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
-		sprintf(tempbuf, "%.2f", Tjxxhz[tempi].m_Fffpljse/SUM_EXTENSION);
+		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fffpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 	}
 
