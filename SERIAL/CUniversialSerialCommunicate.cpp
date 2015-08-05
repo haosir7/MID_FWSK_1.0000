@@ -1518,7 +1518,7 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		return FAILURE;
 	}
 	INT8 tempbuf[ZDYXX_LEN+1];
-	m_serialProtocol->FillParament(response.fplxdm, FPLXDM_S_LEN);
+	m_serialProtocol->FillParament(g_YwXmlArg->m_fplxdm, FPLXDM_S_LEN);
 	m_serialProtocol->FillParament(response.sl, ITEM_COUNT_LEN);
 	for (INT32 tempi=0; tempi<Monthcount; tempi++)
 	{
