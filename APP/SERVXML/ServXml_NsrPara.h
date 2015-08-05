@@ -44,6 +44,8 @@ private:
 public:
 	INT32 CommunicationProc(void* pDataIn, void* pDataOut, string &strErr);
 
+	INT32 SSLConnectTest(string nsrsbh, string strZskl, string &strErr);
+
 	CNsrPara(ProtocolOrganize *p);
 	~CNsrPara();
 

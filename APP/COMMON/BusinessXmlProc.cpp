@@ -510,5 +510,14 @@ INT32 CBusinessXmlProc::UpdateUploadInv(CYWXML_GY &ywxml_gy)
 	return ret;
 }
 
+//安全通道连接测试
+INT32 CBusinessXmlProc::SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr)
+{
+	INT32 ret = XML_SUCCESS;
+	
+	return ret;
+}
+
+
 #endif
 

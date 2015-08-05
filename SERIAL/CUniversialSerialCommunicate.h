@@ -91,6 +91,10 @@ private:
 	UINT8 hqlxsj();
 	//转换器清库
 	UINT8 zhqqk();
+	//获取上传出错发票信息
+	UINT8 getErrUpInv();
+	//安全通道连接测试
+	UINT8 sslConnectTest();
 
 	//配置IP地址函数
 	int ifConfig(const char *ifname,  const char *ipaddr,const char *netmask, const char *gwip, const char *dns);

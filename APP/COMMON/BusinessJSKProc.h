@@ -134,6 +134,9 @@ public:
 public:
 	//更新未上传发票信息
 	INT32 UpdateUploadInv(CYWXML_GY &ywxml_gy);
+
+	//安全通道连接测试
+	INT32 SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr);
 };
 
 #endif

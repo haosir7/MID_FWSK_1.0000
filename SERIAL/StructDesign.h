@@ -440,5 +440,14 @@ typedef struct Struct_HQLXSJ_Request{
 	UINT8 scsjjg[10+1];
 } HQLXSJ_Request;
 
+//安全通道连接测试
+typedef struct Struct_CONNECTTEST_Request{
+	UINT8 nsrsbh[NSRSBH_LEN+1];
+	UINT8 skpbh[SBBH_LEN+1];
+	UINT8 skpkl[KOULING_LEN+1];	
+	UINT8 jqbh[JQBH_LEN+1];
+	UINT8 zskl[KOULING_LEN+1];	
+} CONNECTTEST_Request;
+
 
 #endif

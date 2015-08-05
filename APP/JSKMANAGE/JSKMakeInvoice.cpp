@@ -869,7 +869,7 @@ INT32 CJSKMakeInvoice::ParseFpscjg(string scqrbw, string &mxjgmw, string &strErr
 	
 	xmlParse.LocateNodeByName(xmlParse.m_parentElement[4], "MESS");
 	strErr = xmlParse.GetText();
-	strErr = strFphm + ":" + strErr;
+//	strErr = strFphm + ":" + strErr;
 	DBG_PRINT(("strErr = %s", strErr.c_str()));
 
 	xmlParse.XMLParseEnd();

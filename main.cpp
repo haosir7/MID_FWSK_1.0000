@@ -9,6 +9,7 @@
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
 #include "pos_debug.h"
+#include "uniAcceptFrameworkApi.h"
 
 #if PROJECT_TYPE_MODE == PROJECT_TYPE_ZJJ
 #else
@@ -53,10 +54,13 @@ int main()
 	g_gNetArg->SetServPara(g_globalArgLib->m_netPara->m_ServIP, g_globalArgLib->m_netPara->m_ServPort,g_globalArgLib->m_netPara->m_ServAddr);
 	g_gNetArg->SetZskl(g_globalArgLib->m_strZskl);
 
+	if(g_globalArgLib->m_corpInfo->m_jqbh != "")
+	{
 	CManageBusinessFunc manFunc;
 	g_YwXmlArg->m_jqbh = g_globalArgLib->m_corpInfo->m_jqbh;
 	g_YwXmlArg->m_sksbkl = g_globalArgLib->m_strSksbkl;
 	manFunc.UpdateUploadInvInfo(*g_YwXmlArg);
+	}
 
 	pthread_t threadWrt;   /**< 接收线程 */
 	DBG_PRINT(("已初始化，启动次线程前"));

@@ -192,3 +192,44 @@ INT32 CNsrPara::CommunicationProc(void* pDataIn, void* pDataOut, string &strErr)
 	return SUCCESS;
 }
 
+INT32 CNsrPara::SSLConnectTest(string nsrsbh, string strZskl, string &strErr)
+{
+#if SSL_USE_TYPE == 1
+	int rec_len = PROTOCOL_OUT_BUFF_LEN;
+	CTechnologyMsg pTechMsg;
+	string strTechMsg("");
+	
+	pTechMsg.m_nsrsbh = nsrsbh;
+	pTechMsg.m_servIP = g_gNetArg->m_servIP;
+	pTechMsg.m_servPort = g_gNetArg->m_servPort;
+	pTechMsg.m_passWord = strZskl;
+	pTechMsg.m_certPwd = strZskl;
+	GetTechMsgStrTest(&pTechMsg, strTechMsg);
+	UINT8 errBuf[1024];
+	memset(errBuf, 0, sizeof(errBuf));
+	
+	string bizMsg="hello,I am here";
+	int retval = 0;
+	CJSKInfoFunc::MutexLock();
+	retval=aisino_ssl_transfer_call(SSL_AUTH_CODE,(char*)strTechMsg.c_str(),strTechMsg.size(),
+		(unsigned char*)bizMsg.c_str(),bizMsg.size(),(unsigned char*)g_Xml_ExchangeBuf,&rec_len,errBuf);
+	CJSKInfoFunc::MutexUnlock();
+	DBG_PRINT(("retval = %d", retval));
+	if( retval != 0)
+	{
+		DBG_PRINT(("errBuf = %s", errBuf));
+		strErr = (INT8 *)errBuf;
+		return retval;
+	}
+	string strRet = g_Xml_ExchangeBuf;
+	if( (rec_len==2) && (strRet=="ok") )
+	{
+		return SUCCESS;
+	}
+	else
+	{
+		return FAILURE;
+	}
+	
+#endif
+}

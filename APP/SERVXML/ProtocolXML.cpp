@@ -332,4 +332,42 @@ void ProtocolXML::GetTechMsgStr(CTechnologyMsg *pTechMsg, string &strTechMsg)
 	return;
 }
 
+void ProtocolXML::GetTechMsgStrTest(CTechnologyMsg *pTechMsg, string &strTechMsg)
+{
+	INT8 tmpbuf[128];
+	strTechMsg = "";
+
+	strTechMsg.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	strTechMsg.append("<tripTechnologyPackage version=\"1.0\">");
+	strTechMsg.append("<identity>");
+	memset(tmpbuf, 0, sizeof(tmpbuf));
+	sprintf(tmpbuf, "<serviceURI>https://%s:%s</serviceURI>", pTechMsg->m_servIP.c_str(), pTechMsg->m_servPort.c_str());
+	strTechMsg.append(tmpbuf);
+	strTechMsg.append("<SSL>TA</SSL>");
+	memset(tmpbuf, 0, sizeof(tmpbuf));
+	sprintf(tmpbuf, "<digigalCertPassword>%s</digigalCertPassword>", pTechMsg->m_certPwd.c_str());
+	strTechMsg.append(tmpbuf);
+	strTechMsg.append("<showDigigalCertSelectDialog>FALSE</showDigigalCertSelectDialog>");
+	memset(tmpbuf, 0, sizeof(tmpbuf));
+	sprintf(tmpbuf, "<password>%s</password>", pTechMsg->m_passWord.c_str());
+	strTechMsg.append(tmpbuf);
+	memset(tmpbuf, 0, sizeof(tmpbuf));
+	sprintf(tmpbuf, "<nsrsbh>%s</nsrsbh>", pTechMsg->m_nsrsbh.c_str());
+	strTechMsg.append(tmpbuf);
+	strTechMsg.append("<senderName>zyc</senderName>");
+	strTechMsg.append("<command>COMPATIBILITY_CUSTOM</command>");
+	strTechMsg.append("</identity>");
+	strTechMsg.append("<attachment>");
+	strTechMsg.append("<Properties>");
+	strTechMsg.append("<Key Name=\"FRAMEWORK_CURRENT_VERSION\">4.3.47</Key>");
+	strTechMsg.append("<Key Name=\"FRAMEWORK_BIZ_SUBTYPE\">NETWORK_CONNECT_CHECK</Key>");
+	strTechMsg.append("</Properties>");
+	strTechMsg.append("</attachment>");
+	strTechMsg.append("</tripTechnologyPackage>");
+
+	DBG_PRINT(("strTechMsg = %s", strTechMsg.c_str()));
+	
+	return;
+}
+
 

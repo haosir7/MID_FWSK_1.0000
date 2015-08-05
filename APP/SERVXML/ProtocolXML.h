@@ -21,7 +21,7 @@
 #define TECH_MSG_SERV_ID_GP			"dzdz_gpxx_xiazai_zzszp"	//π∫∆±–≈œ¢œ¬‘ÿ
 #define TECH_MSG_CERT_PWD			"88888888"
 #define TECH_MSG_SERV_IP			"192.168.0.104"
-#define TECH_MSG_SERV_PORT			"8008"
+#define TECH_MSG_SERV_PORT			"8002"
 #define TECH_MSG_SEND_NAME			"aisino"
 
 class ServRet_Info
@@ -84,6 +84,7 @@ public:
 	void GetServRetInfo(string &retCode, string &retMsg);
 
 	void GetTechMsgStr(CTechnologyMsg *pTechMsg, string &strTechMsg);
+	void GetTechMsgStrTest(CTechnologyMsg *pTechMsg, string &strTechMsg);
 
 private:
 	/*!

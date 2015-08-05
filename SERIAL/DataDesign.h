@@ -129,6 +129,9 @@
 #define SERIAL_ZSKLGG_CMD			0x1C		//证书口令更改命令
 #define SERIAL_FPBL_CMD				0x1D		//发票补录命令
 #define SERIAL_HQLXSJ_CMD			0x30		//获取离线数据命令
+
+#define SERIAL_ERRUPINV_CMD			0x31		//获取上传出错发票信息
+#define SERIAL_CONNECT_TEST_CMD		0x32		//安全通道连接测试
 #define SERIAL_ZHQQK_CMD			0x99		//转换器清库
 
 #endif

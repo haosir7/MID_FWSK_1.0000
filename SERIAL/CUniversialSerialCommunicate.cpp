@@ -136,6 +136,12 @@ UINT8 CUniversialSerialCommunicate::handleSerialCMD(){
 	case SERIAL_ZHQQK_CMD:
 		zhqqk();
 		break;
+	case SERIAL_ERRUPINV_CMD:
+		getErrUpInv();
+		break;;
+	case SERIAL_CONNECT_TEST_CMD:
+		sslConnectTest();
+		break;;
 	default:
 		m_serialProtocol->Rsp_ERR(SERCMD_CMDNO_ERR);
 		break;
@@ -1529,12 +1535,10 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Jzrq);
 		m_serialProtocol->FillParament(tempbuf, DATE_LEN);
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Qckcfs);
 		m_serialProtocol->FillParament(tempbuf, FPZS_LEN);
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%u", Tjxxhz[tempi].m_Lgfpfs);
@@ -1571,28 +1575,23 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljje= %lld",tempi,Tjxxhz[tempi].m_Zsfpljje));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zsfpljje/SUM_EXTENSION));
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 
 		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljse= %lld",tempi,Tjxxhz[tempi].m_Zsfpljse));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zsfpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljje/SUM_EXTENSION));
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljse/SUM_EXTENSION));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fsfpljje/SUM_EXTENSION));
-		DBG_PRINT(("tempbuf= %s",tempbuf));
 		m_serialProtocol->FillParament(tempbuf, JE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
@@ -1713,6 +1712,13 @@ UINT8 CUniversialSerialCommunicate::fpsssc(){
 	g_globalArgLib->m_pthreadFplxdm = (INT8 *)(request.fplxdm);
 	g_globalArgLib->m_pthreadJqbh = (INT8 *)(request.jqbh);
 	g_globalArgLib->m_pthreadKpjh = (INT8 *)(request.kpjh);
+
+	if(g_globalArgLib->m_InvServNum <= 0)
+	{
+		strErr = "所有发票都已上传!";
+		m_serialProtocol->Rsp_ERR(strErr);
+		return SUCCESS;
+	}
 
 	if(	g_globalArgLib->m_pthreadFlag == 0)
 	{
@@ -2423,6 +2429,83 @@ UINT8 CUniversialSerialCommunicate::zhqqk(){
 	return SUCCESS;
 }
 
+//获取上传出错发票信息
+UINT8 CUniversialSerialCommunicate::getErrUpInv()
+{
+	CONNECTTEST_Request request;
+	UINT32 offset=0;
+	memset(&request, 0x00, sizeof(FPBL_Request));
+	
+	memcpy(request.nsrsbh, m_serialProtocol->m_revCmd->revData, NSRSBH_LEN);
+	offset += NSRSBH_LEN;
+	memcpy(request.skpbh, m_serialProtocol->m_revCmd->revData+offset, SBBH_LEN);
+	offset += SBBH_LEN;
+	memcpy(request.skpkl, m_serialProtocol->m_revCmd->revData+offset, KOULING_LEN);
+	offset += KOULING_LEN;
+	memcpy(request.jqbh, m_serialProtocol->m_revCmd->revData+offset, JQBH_LEN);
+	offset += JQBH_LEN;	
+	
+	DBG_PRINT(("nsrsbh = %s", (INT8 *)request.nsrsbh));
+	DBG_PRINT(("skpbh = %s", (INT8 *)request.skpbh));
+	DBG_PRINT(("skpkl = %s", (INT8 *)request.skpkl));
+	DBG_PRINT(("jqbh = %s", (INT8 *)request.jqbh));
+	
+	g_YwXmlArg->m_nsrsbh = (INT8 *)(request.nsrsbh);
+	g_YwXmlArg->m_sksbbh = (INT8 *)(request.skpbh);
+	g_YwXmlArg->m_sksbkl = (INT8 *)(request.skpkl);
+	g_YwXmlArg->m_jqbh = (INT8 *)(request.jqbh);
+
+
+	m_serialProtocol->Rsp_OK();
+	return SUCCESS;
+}
+
+
+//安全通道连接测试
+UINT8 CUniversialSerialCommunicate::sslConnectTest()
+{
+	CONNECTTEST_Request request;
+	UINT32 offset=0;
+	memset(&request, 0x00, sizeof(FPBL_Request));
+	
+	memcpy(request.nsrsbh, m_serialProtocol->m_revCmd->revData, NSRSBH_LEN);
+	offset += NSRSBH_LEN;
+	memcpy(request.skpbh, m_serialProtocol->m_revCmd->revData+offset, SBBH_LEN);
+	offset += SBBH_LEN;
+	memcpy(request.skpkl, m_serialProtocol->m_revCmd->revData+offset, KOULING_LEN);
+	offset += KOULING_LEN;
+	memcpy(request.jqbh, m_serialProtocol->m_revCmd->revData+offset, JQBH_LEN);
+	offset += JQBH_LEN;
+	memcpy(request.zskl, m_serialProtocol->m_revCmd->revData+offset, KOULING_LEN);
+	offset += KOULING_LEN;
+	
+	
+	DBG_PRINT(("nsrsbh = %s", (INT8 *)request.nsrsbh));
+	DBG_PRINT(("skpbh = %s", (INT8 *)request.skpbh));
+	DBG_PRINT(("skpkl = %s", (INT8 *)request.skpkl));
+	DBG_PRINT(("jqbh = %s", (INT8 *)request.jqbh));
+	DBG_PRINT(("zskl = %s", (INT8 *)request.zskl));
+	
+	g_YwXmlArg->m_nsrsbh = (INT8 *)(request.nsrsbh);
+	g_YwXmlArg->m_sksbbh = (INT8 *)(request.skpbh);
+	g_YwXmlArg->m_sksbkl = (INT8 *)(request.skpkl);
+	g_YwXmlArg->m_jqbh = (INT8 *)(request.jqbh);
+	g_YwXmlArg->m_zskl = (INT8 *)(request.zskl);
+
+	ret = manageFunc.SSLConnectTest(*g_YwXmlArg, strErr);
+	if (SUCCESS != ret)
+	{
+		INT8 errbuf[64];
+		memset(errbuf, 0, sizeof(errbuf));
+		sprintf(errbuf, "%d", ret);
+		m_serialProtocol->Rsp_ERR(errbuf);
+		return FAILURE;
+	}
+
+	m_serialProtocol->Rsp_OK();
+	return SUCCESS;
+}
+
 #ifndef WIN32
 void * PthreadInvUpLoad(void *arg)
 {
@@ -2448,7 +2531,7 @@ void * PthreadInvUpLoad(void *arg)
 			if (SUCCESS != ret)
 			{
 				DBG_PRINT(("strErr = %s", strErr.c_str()));
-				//g_globalArgLib->m_pthreadFlag = 0;
+				g_globalArgLib->m_pthreadFlag = 0;
 				g_globalArgLib->m_pthreadErr = strErr;
 				CommonSleep(3*nTime);
 			}

@@ -583,5 +583,22 @@ INT32 CBusinessJSKProc::UpdateUploadInv(CYWXML_GY &ywxml_gy)
 	return ret;
 }
 
+//安全通道连接测试
+INT32 CBusinessJSKProc::SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr)
+{
+	INT32 ret = JSK_SUCCESS;
+	
+	CStructOrganize structorgnize;
+	CNsrPara nsrpara(&structorgnize);
+	ret = nsrpara.SSLConnectTest(ywxml_gy.m_nsrsbh, ywxml_gy.m_zskl, strErr);
+	if(ret != SUCCESS)
+	{
+		return ret;
+	}
+	
+	return ret;
+}
+
+
 #endif
 
