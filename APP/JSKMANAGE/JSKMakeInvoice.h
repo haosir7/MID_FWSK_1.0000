@@ -25,7 +25,6 @@
 #define INV_UPLOAD_FLAG1	1		//已上传，未下载结果成功
 #define INV_UPLOAD_FLAG2	2		//上传发票错误
 
-
 typedef struct _JSKInvDet
 {
 	string m_spbm;			/**< 商品编码 */
@@ -58,8 +57,6 @@ typedef struct _JSKInvHead
 
 	JSKInvDet m_invDet[6];		/**< 商品行信息数组 */
 } JSKInvHead;
-
-
 
 /**
 *@class CJSKMakeInvoice
@@ -156,6 +153,13 @@ public:
 	@return 
 	*/
 	static void FilterSpace(string &str);
+
+	/*!
+	@brief 获取上传出错发票信息
+	@param[in/out] str
+	@return 
+	*/
+	static INT32 GetErrUpInv(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr);
 
 private:
 

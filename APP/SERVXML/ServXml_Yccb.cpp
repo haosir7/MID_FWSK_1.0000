@@ -127,10 +127,10 @@ INT32 CServYccb::CommunicationProc(void* pDataIn, void* pDataOut, string &strErr
 	CJSKInfoFunc::MutexUnlock();
 	if( retval != 0)
 	{
-		memset((INT8 *)errBuf, 0, sizeof(errBuf));
-		sprintf((INT8 *)errBuf, "%d", retval);
-		strErr = (INT8 *)errBuf;
-		return FAILURE;
+		DBG_PRINT(("errBuf = %s", errBuf));
+		//strErr = (INT8 *)errBuf;
+		strErr = "ÍøÂçÍ¨ÐÅ´íÎó!";
+		return retval;
 	}
 
 	DBG_PRINT(("rec_len = %d", rec_len));

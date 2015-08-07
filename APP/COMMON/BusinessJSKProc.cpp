@@ -599,6 +599,14 @@ INT32 CBusinessJSKProc::SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr)
 	return ret;
 }
 
+INT32 CBusinessJSKProc::GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)
+{
+	INT32 ret = JSK_SUCCESS;
+	
+	ret = CJSKMakeInvoice::GetErrUpInv(pDataInvServ, nCount, strErr);
+	
+	return ret;
+}
 
 #endif
 

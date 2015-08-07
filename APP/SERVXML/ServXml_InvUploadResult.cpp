@@ -193,7 +193,8 @@ INT32 CInvUpResult::CommunicationProc(void* pDataIn, void* pDataOut, string &str
 	if( retval != 0)
 	{
 		DBG_PRINT(("errBuf = %s", errBuf));
-		strErr = (INT8 *)errBuf;
+		//strErr = (INT8 *)errBuf;
+		strErr = "ÍøÂçÍ¨ÐÅ´íÎó!";
 		return retval;
 	}
 

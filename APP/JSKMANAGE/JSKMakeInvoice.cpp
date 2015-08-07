@@ -1292,6 +1292,39 @@ void CJSKMakeInvoice::FilterSpace(string &str)
 	return;
 }
 
+INT32 CJSKMakeInvoice::GetErrUpInv(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)
+{
+	CInvServ invServ;
+	INT8 sqlbuf[128];
+	UINT32 i = 0;
+
+	memset(sqlbuf, 0, sizeof(sqlbuf));
+	sprintf(sqlbuf, "where UP_FLAG = %d", INV_UPLOAD_FLAG2);
+	invServ.m_filter.append(sqlbuf);
+	nCount = invServ.GetRecordNum();
+	DBG_PRINT(("nCount = %u", nCount));
+
+	if(nCount > MAX_ERR_INV_COUNT)
+		nCount = MAX_ERR_INV_COUNT;
+
+	invServ.m_filter.append(sqlbuf);
+	invServ.Requery();
+	UINT32 retCode = invServ.MoveFirst();
+	while((retCode == SQLITE_ROW)||(retCode == SQLITE_DONE))
+	{
+		pDataInvServ[i].m_fpdm = invServ.m_code;
+		pDataInvServ[i].m_fphm = invServ.m_InvNo;
+		pDataInvServ[i].m_errMsg = invServ.m_errMsg;
+
+		i++;
+		if(i >= nCount)
+			break;
+		retCode = invServ.MoveNext();
+	}
+	retCode = invServ.MoveEnd();
+
+	return JSK_SUCCESS;
+}
 
 
 

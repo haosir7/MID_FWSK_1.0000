@@ -307,8 +307,7 @@ void OperateNet(char* pin,string ip,string port,string serverpath,char* service_
 
 		INT8 tmpErrBuf[256];
 		memset(tmpErrBuf, 0, sizeof(tmpErrBuf));
-//		sprintf(tmpErrBuf, "%d:%s", ret, pXmlYW->m_sslStrErr.c_str());
-		sprintf(tmpErrBuf, "%d:ÍøÂçÍ¨Ñ¶´íÎó!", ret);
+		sprintf(tmpErrBuf, "%d:%s", ret, pXmlYW->m_sslStrErr.c_str());
 		Err = tmpErrBuf;
 //		Err = pXmlYW->m_sslStrErr;
 		DBG_PRINT(("Err = %s", Err.c_str()));

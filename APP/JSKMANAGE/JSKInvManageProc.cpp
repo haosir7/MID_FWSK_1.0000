@@ -208,7 +208,8 @@ INT32 CJSKInvManageProc::TJXXCX_Proc(string strFplxdm, INT32 &MonthCount, CTjxxh
 	UINT32 nDate = 0;
 	UINT32 sDate = 0;
 	INT32 itemp = 0;
-
+INT64 nZpHjje=0;
+INT64 nFpHjje=0;
 	TDateTime tempeDateTime;
 	UINT32 tempedate = 0;
 	string strTmp("");
@@ -297,17 +298,6 @@ INT32 CJSKInvManageProc::TJXXCX_Proc(string strFplxdm, INT32 &MonthCount, CTjxxh
 		pInvHead->GetOneResult(DB_UINT32, (void*)&(pTjxxhz[itemp].m_Kffpfs)); 
 		strTmp="";
 
-		//正废发票累计金额
-		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
-		sprintf(chTmpValue, " and KPLX = %u", WASTE_NOR);
-		strTmp = "select sum(KPHJJE) from INV_HEAD "; 
-		strTmp.append(chValue);
-		strTmp.append(chTmpValue);
-		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
-		pInvHead->SetSQL(strTmp);
-		pInvHead->GetOneResult(DB_INT64, (void*)&(pTjxxhz[itemp].m_Zffpljje)); 
-		strTmp="";
-		DBG_PRINT(("pTjxxhz[%d].m_Zffpljje= %lld",itemp,pTjxxhz[itemp].m_Zffpljje));
 
 		//正废发票累计税额
 		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
@@ -321,17 +311,21 @@ INT32 CJSKInvManageProc::TJXXCX_Proc(string strFplxdm, INT32 &MonthCount, CTjxxh
 		strTmp="";
         DBG_PRINT(("pTjxxhz[%d].m_Zffpljse= %lld",itemp,pTjxxhz[itemp].m_Zffpljse));
 
-		//负废发票累计金额
+
+		//正废发票累计金额
 		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
-		sprintf(chTmpValue, " and KPLX = %u", WASTE_RET);
+		sprintf(chTmpValue, " and KPLX = %u", WASTE_NOR);
 		strTmp = "select sum(KPHJJE) from INV_HEAD "; 
 		strTmp.append(chValue);
 		strTmp.append(chTmpValue);
 		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
 		pInvHead->SetSQL(strTmp);
-		pInvHead->GetOneResult(DB_INT64, (void*)&(pTjxxhz[itemp].m_Fffpljje)); 
+		pInvHead->GetOneResult(DB_INT64, (void*)&(nZpHjje)); 
+		DBG_PRINT(("nZpHjje= %lld",itemp,nZpHjje));
+		pTjxxhz[itemp].m_Zffpljje  =nZpHjje- pTjxxhz[itemp].m_Zffpljse;
+		DBG_PRINT(("pTjxxhz[%d].m_Zffpljje= %lld",itemp,pTjxxhz[itemp].m_Zffpljje));
 		strTmp="";
-		
+
 		//负废发票累计税额
 		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
 		sprintf(chTmpValue, " and KPLX = %u", WASTE_RET);
@@ -341,6 +335,21 @@ INT32 CJSKInvManageProc::TJXXCX_Proc(string strFplxdm, INT32 &MonthCount, CTjxxh
 		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
 		pInvHead->SetSQL(strTmp);
 		pInvHead->GetOneResult(DB_INT64, (void*)&(pTjxxhz[itemp].m_Fffpljse)); 
+		strTmp="";
+
+
+		//负废发票累计金额
+		memset((void*)chTmpValue, 0, sizeof(chTmpValue));
+		sprintf(chTmpValue, " and KPLX = %u", WASTE_RET);
+		strTmp = "select sum(KPHJJE) from INV_HEAD "; 
+		strTmp.append(chValue);
+		strTmp.append(chTmpValue);
+		DBG_PRINT(("strTmp = %s", strTmp.c_str()));
+		pInvHead->SetSQL(strTmp);
+		pInvHead->GetOneResult(DB_INT64, (void*)&(nFpHjje)); 
+		DBG_PRINT(("nFpHjje= %lld",itemp,nFpHjje));
+		pTjxxhz[itemp].m_Fffpljje  =nFpHjje- pTjxxhz[itemp].m_Fffpljse;
+		DBG_PRINT(("pTjxxhz[%d].m_Fffpljje= %lld",itemp,pTjxxhz[itemp].m_Fffpljje));
 		strTmp="";
 		
 		sDateTime = sDateTime.MonthAdd(sDateTime, 1);

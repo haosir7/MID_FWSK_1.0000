@@ -137,6 +137,10 @@ public:
 
 	//安全通道连接测试
 	INT32 SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr);
+
+	//获取上传错误发票信息 
+	INT32 GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr);
+
 };
 
 #endif

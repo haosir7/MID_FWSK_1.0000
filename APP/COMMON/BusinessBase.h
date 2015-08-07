@@ -16,6 +16,7 @@
 #include "CInvVol.h"
 #include "CTax.h"
 #include "CTjxxhz.h"
+#include "CInvServ.h"
 #include "VersionConfig.h"
 
 //业务流程调用函数接口方式
@@ -202,6 +203,9 @@ public:
 
 	//安全通道连接测试
 	virtual INT32 SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr)=0;
+	
+	//获取上传错误发票信息 
+	virtual INT32 GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)=0;
 	
 };
 

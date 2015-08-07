@@ -445,7 +445,8 @@ INT32 CInvUpload::CommunicationProc(void* pDataIn, void* pDataOut, string &strEr
 	if( retval != 0)
 	{
 		DBG_PRINT(("errBuf = %s", errBuf));
-		strErr = (INT8 *)errBuf;
+		//strErr = (INT8 *)errBuf;
+		strErr = "ÍøÂçÍ¨ÐÅ´íÎó!";
 		return retval;
 	}
 

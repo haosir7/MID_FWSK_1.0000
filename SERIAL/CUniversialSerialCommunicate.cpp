@@ -8,6 +8,7 @@
 #include "IncludeMe.h"
 #include "GlobalNetArg.h"
 #include "ClearDepotFunc.h"
+#include "CInvServ.h"
 
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
@@ -2455,6 +2456,35 @@ UINT8 CUniversialSerialCommunicate::getErrUpInv()
 	g_YwXmlArg->m_sksbkl = (INT8 *)(request.skpkl);
 	g_YwXmlArg->m_jqbh = (INT8 *)(request.jqbh);
 
+	CDataInvServ dataInvServ[MAX_ERR_INV_COUNT];
+	UINT32 nCount = 0;
+	if(saleFunc.GetErrUpInvInfo(dataInvServ, nCount, strErr) != SUCCESS)
+	{
+		m_serialProtocol->Rsp_ERR(strErr);
+		return FAILURE;
+	}
+
+	if(nCount <= 0)
+	{
+		strErr = "无上传错误发票信息;";
+		m_serialProtocol->Rsp_ERR(strErr);
+		return FAILURE;
+	}
+
+	INT8 tempbuf[128];
+	memset(tempbuf, 0x00, sizeof(tempbuf));
+	sprintf(tempbuf, "%u", nCount);
+	m_serialProtocol->FillParament(tempbuf, WSCFPZS_LEN);
+	for(int i=0; i<nCount; i++)
+	{
+		m_serialProtocol->FillParament(dataInvServ[i].m_fpdm, FPDM_LEN);
+
+		memset(tempbuf, 0x00, sizeof(tempbuf));
+		sprintf(tempbuf, "%08u", dataInvServ[i].m_fphm);
+		m_serialProtocol->FillParament(tempbuf, FPHM_LEN);
+
+		m_serialProtocol->FillParament(dataInvServ[i].m_errMsg, CWMS_LEN);
+	}
 
 	m_serialProtocol->Rsp_OK();
 	return SUCCESS;
