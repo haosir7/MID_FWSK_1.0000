@@ -175,13 +175,16 @@ public:
 	//3.4清零解锁
 	virtual	INT32 QLJS_Business(CYWXML_GY &ywxml_gy, string Qtxx,string &Fpjkmw, string &strErr)=0;
 
-	//3.5离线信息上传
+	//3.5清零解锁结果确认
+	virtual	INT32 QLJSJGQR_Business(CYWXML_GY &ywxml_gy, string Qtxx, string &strErr)=0;
+	
+	//3.6离线信息上传
 	virtual INT32 NETLXXXSC_Business(CYWXML_GY &ywxml_gy, CInvKind *invkind, string strQtxx, string &strLzkzxx, string &strErr)=0;
 
-	//3.6网络领取发票
+	//3.7网络领取发票
 	virtual INT32 WLLQFP_Business(CYWXML_GY &ywxml_gy, CInvVol *pInvvol, string strQtxx, string &strErr)=0;
 
-	//3.7网络领取发票结果确认
+	//3.8网络领取发票结果确认
 	virtual INT32 WLLQFPJGQR_Business(CYWXML_GY &ywxml_gy, CInvVol *pInvvol, string strQtxx, string &strErr)=0;
 
 	//发票补录

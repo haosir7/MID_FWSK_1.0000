@@ -464,10 +464,22 @@ INT32 CBusinessXmlProc::QLJS_Business(CYWXML_GY &ywxml_gy, string Qtxx,string &F
 	ret = Qljs.NETXml_Proc(strErr);
 	
 	return ret;
-
 }
 
-//3.5离线信息上传
+//3.5清零解锁结果确认
+INT32 CBusinessXmlProc::QLJSJGQR_Business(CYWXML_GY &ywxml_gy, string Qtxx, string &strErr)
+{
+	INT32 ret = XML_SUCCESS;
+
+	ywxml_gy.m_strID = BUSINESS_NETID_QLJSJGQR;
+	CQljsjgqr Qljsjgqr(ywxml_gy, Qtxx);
+	
+	ret = Qljsjgqr.NETXml_Proc(strErr);
+	
+	return ret;
+}
+
+//3.6离线信息上传
 INT32 CBusinessXmlProc::NETLXXXSC_Business(CYWXML_GY &ywxml_gy, CInvKind *invkind, string strQtxx, string &strLzkzxx, string &strErr)
 {
 	INT32 ret = XML_SUCCESS;
@@ -479,7 +491,7 @@ INT32 CBusinessXmlProc::NETLXXXSC_Business(CYWXML_GY &ywxml_gy, CInvKind *invkin
 	return ret;
 }
 
-//3.6网络领取发票
+//3.7网络领取发票
 INT32 CBusinessXmlProc::WLLQFP_Business(CYWXML_GY &ywxml_gy, CInvVol *pInvvol, string strQtxx, string &strErr)
 {
 	INT32 ret = XML_SUCCESS;
@@ -491,7 +503,7 @@ INT32 CBusinessXmlProc::WLLQFP_Business(CYWXML_GY &ywxml_gy, CInvVol *pInvvol, s
 	return ret;
 }
 
-//3.7网络领取发票结果确认
+//3.8网络领取发票结果确认
 INT32 CBusinessXmlProc::WLLQFPJGQR_Business(CYWXML_GY &ywxml_gy, CInvVol *pInvvol, string strQtxx, string &strErr)
 {
 	INT32 ret = XML_SUCCESS;

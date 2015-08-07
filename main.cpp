@@ -6,7 +6,6 @@
 #include "StructOrganize.h"
 #include "ServXml_NsrPara.h"
 
-
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
 #include "pos_debug.h"

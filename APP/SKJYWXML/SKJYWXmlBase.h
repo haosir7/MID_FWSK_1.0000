@@ -55,6 +55,7 @@
 #define BUSINESS_NETID_FPSCJGHQ		"FPSCJGHQ"			//发票上传结果获取
 #define BUSINESS_NETID_WLCB			"WLCB"				//网络抄报
 #define BUSINESS_NETID_QLJS			"QLJS"				//清零解锁
+#define BUSINESS_NETID_QLJSJGQR		"QLJSJGQR"			//清零解锁结果确认
 #define BUSINESS_NETID_LXXXSC		"LXXXSC"			//离线信息上传
 #define BUSINESS_NETID_WLLQFP		"WLLQFP"			//网络领取发票
 #define BUSINESS_NETID_WLLQFPJGQR	"WLLQFPJGQR"		//网络领取发票结果确认

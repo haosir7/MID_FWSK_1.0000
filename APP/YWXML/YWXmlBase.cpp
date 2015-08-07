@@ -55,7 +55,7 @@ INT32 CYWXmlBase::StartYWXml(string strInput, XMLParse *parse, XMLConstruct *con
 	DBG_PRINT(("ywlx = %s", ywlx.c_str()));
 
 	if( (ywlx==BUSINESS_NETID_FPSSSC) || (ywlx==BUSINESS_NETID_FPSCJGHQ) ||
-		(ywlx==BUSINESS_NETID_WLCB) || (ywlx==BUSINESS_NETID_QLJS) )
+		(ywlx==BUSINESS_NETID_WLCB) || (ywlx==BUSINESS_NETID_QLJS) || (ywlx==BUSINESS_NETID_QLJSJGQR) )
 	{
 		//construct->XMLConstructBeginUpdate(XML_DEF_BUSSINESS_RSPFILE, GBK_CHAR_TYPE);
 	}
@@ -75,7 +75,7 @@ INT32 CYWXmlBase::OverYWXml(XMLParse *parse, XMLConstruct *construct, string &st
 	parse->XMLParseEnd();
 	
 	if( (m_ywlx==BUSINESS_NETID_FPSSSC) || (m_ywlx==BUSINESS_NETID_FPSCJGHQ) ||
-		(m_ywlx==BUSINESS_NETID_WLCB) || (m_ywlx==BUSINESS_NETID_QLJS) )
+		(m_ywlx==BUSINESS_NETID_WLCB) || (m_ywlx==BUSINESS_NETID_QLJS) || (m_ywlx==BUSINESS_NETID_QLJSJGQR) )
 	{
 		construct->XMLConstructBeginUpdate(XML_DEF_BUSSINESS_RSPFILE, GBK_CHAR_TYPE);
 	}
@@ -113,7 +113,7 @@ INT32 CYWXmlBase::OverYWXml(XMLParse *parse, XMLConstruct *construct)
 	parse->XMLParseEnd();
 	
 	if( (m_ywlx==BUSINESS_NETID_FPSSSC) || (m_ywlx==BUSINESS_NETID_FPSCJGHQ) ||
-		(m_ywlx==BUSINESS_NETID_WLCB) || (m_ywlx==BUSINESS_NETID_QLJS) )
+		(m_ywlx==BUSINESS_NETID_WLCB) || (m_ywlx==BUSINESS_NETID_QLJS) || (m_ywlx==BUSINESS_NETID_QLJSJGQR) )
 	{
 		;
 	}

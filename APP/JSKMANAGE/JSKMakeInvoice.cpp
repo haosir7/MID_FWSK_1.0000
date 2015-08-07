@@ -1310,7 +1310,7 @@ INT32 CJSKMakeInvoice::GetErrUpInv(CDataInvServ *pDataInvServ, UINT32 &nCount, s
 	invServ.m_filter.append(sqlbuf);
 	invServ.Requery();
 	UINT32 retCode = invServ.MoveFirst();
-	while((retCode == SQLITE_ROW)||(retCode == SQLITE_DONE))
+	while(retCode == SQLITE_ROW)
 	{
 		pDataInvServ[i].m_fpdm = invServ.m_code;
 		pDataInvServ[i].m_fphm = invServ.m_InvNo;
@@ -1321,7 +1321,7 @@ INT32 CJSKMakeInvoice::GetErrUpInv(CDataInvServ *pDataInvServ, UINT32 &nCount, s
 			break;
 		retCode = invServ.MoveNext();
 	}
-	retCode = invServ.MoveEnd();
+	invServ.MoveEnd();
 
 	return JSK_SUCCESS;
 }

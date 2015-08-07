@@ -43,6 +43,7 @@
 #include "NETXML_FPSCJGHQ.h"
 #include "NETXML_FPSC.h"
 #include "NETXML_QLJS.h"
+#include "NETXML_QLJSJGQR.h"
 #include "NETXML_WLCB.h"
 
 #include "LOGCTRL.h"
@@ -278,6 +279,10 @@ void OperateNet(char* pin,string ip,string port,string serverpath,char* service_
 	else if(strID == BUSINESS_NETID_QLJS)		//清零解锁
 	{
 		pXmlYW = new CQljs(&xmlOutput, &xmlInput);
+	}
+	else if(strID == BUSINESS_NETID_QLJSJGQR)	//清零解锁结果确认
+	{
+		pXmlYW = new CQljsjgqr(&xmlOutput, &xmlInput);
 	}
 #if (PROJECT_TYPE_MODE == PROJECT_TYPE_ZJJ)
 	else if(strID == BUSINESS_NETID_LXXXSC)		//离线信息上传
