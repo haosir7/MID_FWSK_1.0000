@@ -1,16 +1,21 @@
+#include <sys/timeb.h>
+#include "DataTypeDesign.h"
 #include "serial.h"
 
 volatile int devfd = -2;
 
 int openPort(char* path, int baudrate) {
 	unsigned char temp;
+	int ret=0;
 	devfd = port_open(path, baudrate);
 	if (devfd < 0) {
 		printf("open serial %s %d failed!\n", path, baudrate);
 		return -1;
 	}
 
-	while(read(devfd, &temp, 1));
+	do {
+		ret = read(devfd, &temp, 1);
+	}while(ret!=0 && ret!=-1);
 
 	return devfd;
 }
@@ -48,6 +53,9 @@ int readBytes(unsigned char* revData, int revLen) {
 		return -1;
 	}
 	size = read(devfd, revData, revLen);
+
+	if (size < 0)
+		size=0;
 
 	return size;
 }
@@ -184,7 +192,6 @@ int port_open(char *dev, int baudrate) {
 		perror("Can''t Open Serial Port");
 		return -1;
 	}
-	fcntl(fd, F_SETFL, 0);
 	/* get the current options */
 	tcgetattr(fd, &options);
 	/* set raw input, 1 second timeout */
@@ -207,6 +214,43 @@ int port_open(char *dev, int baudrate) {
 	return fd;
 }
 
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+volatile int printerfd = -2;
+int openPrinterPort(char* path, int baudrate)
+{
+	unsigned char temp;
+	printerfd = port_open(path, baudrate);
+	if (printerfd < 0) {
+		printf("open printer serial %s %d failed!\n", path, baudrate);
+		return -1;
+	}
 
+	while(read(printerfd, &temp, 1));
+
+	return printerfd;
+}
+void closePrinterPort()
+{
+	if (0 < printerfd) {
+		close(printerfd);
+	}
+	return;
+}
+int printLine(unsigned char* sendData, int sendLen)
+{
+	printf("printLine printerfd=%d\n", printerfd);
+	if (0 > printerfd)
+	{
+		return -1;
+	}
+	printf("sendLen=%d\n", sendLen);
+	int size = write(printerfd, sendData, sendLen);
+	printf("size=%d\n", size);
+	if (size != sendLen) {
+		return size;
+	}
+	return 0;
+}
+#endif
 
 

@@ -29,6 +29,22 @@ int main()
 {
 	DBG_PRINT(("Programe started !!!"));
 
+	char buf[64];
+	int ret = access("LIBAWE", 0);
+	if (-1 == ret)
+	{
+		if (-1==access("sqlite3", 0) || -1==access("libawe.sql", 0))
+		{
+			DBG_PRINT(("NO DATABASE !!!"));
+			exit(-1);
+		}
+		
+		memset(buf, 0x00, sizeof(buf));
+		sprintf(buf, "./sqlite3 LIBAWE < libawe.sql");
+		system(buf);
+		usleep(500000);
+	}
+
 	CDB *m_db = CDB::GetInstance();
 	m_db->Open();
 	m_db->Init();
@@ -77,12 +93,59 @@ int main()
 	DBG_PRINT(("g_globalArgLib->m_netPara->m_LocalDNS = %s", g_globalArgLib->m_netPara->m_LocalDNS.c_str()));
 	uniSerCommunicate.setNetWork(g_globalArgLib->m_netPara->m_IsDhcp, g_globalArgLib->m_netPara->m_LocalIP.c_str(), g_globalArgLib->m_netPara->m_LocalMask.c_str(), g_globalArgLib->m_netPara->m_LocalGate.c_str(), g_globalArgLib->m_netPara->m_LocalDNS.c_str());
 	
+	//蓝牙串口必须是115200
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION
+	g_globalArgLib->m_serialBaudRate = 115200;
+#endif
+	
 	DBG_PRINT(("g_globalArgLib->m_serialBaudRate = %u", g_globalArgLib->m_serialBaudRate));
+
+#if COMMUNICATE_VERSION != NET_VERSION
+	ret = access("zhhserver", 0);
+	if (-1 == ret)
+	{
+		DBG_PRINT(("NO zhhserver PROGRAME !!!"));
+		m_db->Close();
+		CommonSleep(300);
+		exit(-1);
+	}
+	else
+	{
+		pid_t fpid;
+		memset(buf, 0x00, sizeof(buf));
+		fpid = fork();
+		if (0 > fpid)
+		{
+			DBG_PRINT(("fork has error"));
+			exit(-1);
+		}
+		if (0==fpid)
+		{
+			sprintf(buf, "%d", g_globalArgLib->m_serialBaudRate);
+//			DBG_PRINT(("child process"));
+			execl("./zhhserver", SERIAL_DEVICE, buf,  NULL);
+		}else 
+		{
+//			DBG_PRINT(("parent process"));
+		}
+
+//		sprintf(buf, "./zhhserver %s %d &", SERIAL_DEVICE, g_globalArgLib->m_strSerialBaudRate);
+//		system(buf);
+	}
+#endif
+
 	if (SUCCESS != pSerialProtocol->InitPort(SERIAL_DEVICE, g_globalArgLib->m_serialBaudRate))
 	{
 		DBG_PRINT(("open serial failed"));
 		return 0;
 	}
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+	if (SUCCESS != pSerialProtocol->InitPrinterPort(PRINTER_SERIAL_DEVICE, 9600))
+	{
+		DBG_PRINT(("open printer serial failed"));
+	}
+#endif
+
 	INT8 verbuf[64];
 	memset(verbuf, 0, sizeof(verbuf));
 	sprintf(verbuf, "serial wait for data 版本号:%.6f", SOFTWARE_VERSION);

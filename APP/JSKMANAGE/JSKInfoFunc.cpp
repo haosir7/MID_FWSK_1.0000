@@ -14,7 +14,7 @@
 #include "textParse.h"
 
 #include "LOGCTRL.h"
-//#define NO_POS_DEBUG
+#define NO_POS_DEBUG
 #include "pos_debug.h"
 
 //#define DEGUG_PRN

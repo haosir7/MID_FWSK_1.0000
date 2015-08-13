@@ -11,7 +11,7 @@
 #include "CInvServ.h"
 
 #include "LOGCTRL.h"
-//#define NO_POS_DEBUG
+#define NO_POS_DEBUG
 #include "pos_debug.h"
 
 #include <sys/types.h>
@@ -139,10 +139,22 @@ UINT8 CUniversialSerialCommunicate::handleSerialCMD(){
 		break;
 	case SERIAL_ERRUPINV_CMD:
 		getErrUpInv();
-		break;;
+		break;
 	case SERIAL_CONNECT_TEST_CMD:
 		sslConnectTest();
-		break;;
+		break;
+        case SERIAL_YYSJ_CMD:
+		programUpdate();
+		break;
+	case SERIAL_SYSTEST_CMD:
+		sysTest();
+		break;
+	case SERIAL_WMAC_CMD:
+		writeMAC();
+		break;
+	case SERIAL_WJQBH_CMD:
+		writeMachineNo();
+		break;
 	default:
 		m_serialProtocol->Rsp_ERR(SERCMD_CMDNO_ERR);
 		break;
@@ -2575,6 +2587,98 @@ void * PthreadInvUpLoad(void *arg)
 
 #endif
 
+//应用升级
+UINT8 CUniversialSerialCommunicate::programUpdate(){
+	DBG_PRINT(("----------应用升级----------"));
 
+	DBG_PRINT(("----------挂载----------"));
+	if (system(MOUNT_CMD) != 0)
+	{
+		DBG_PRINT(("----------挂载错误----------"));
+		m_serialProtocol->Rsp_ERR("没有找到U盘!\n");
+		return FAILURE;
+	}
+
+	DBG_PRINT(("----------拷贝----------"));
+	if (system(CPAWE_CMD) != 0)
+	{
+		DBG_PRINT(("----------拷贝失败----------"));
+		m_serialProtocol->Rsp_ERR("文件复制失败!\n");
+		return FAILURE;
+	}
+
+	DBG_PRINT(("----------删除并更名----------"));
+	system(RMAWE_CMD);
+	system(MVAWE_CMD);
+	system(UMOUNT_CMD);
+
+	DBG_PRINT(("----------升级成功!重启----------"));
+	m_serialProtocol->FillParament("升级成功!重启！\n", strlen("升级成功!重启！\n"));
+	m_serialProtocol->Rsp_OK();
+	system(REBOOT_CMD);
+	return SUCCESS;
+}
+
+
+//系统自检
+UINT8 CUniversialSerialCommunicate::sysTest(){
+	DBG_PRINT(("----------系统自检----------"));
+
+	DBG_PRINT(("----------网络测试----------"));
+	if(netTest() != 0)
+	{
+		DBG_PRINT(("网络测试失败!"));
+		m_serialProtocol->FillParament("网络测试失败!", strlen("网络测试失败!"));
+	}
+	else
+	{
+		DBG_PRINT(("网络测试成功!"));
+		m_serialProtocol->FillParament("网络测试成功!", strlen("网络测试成功!"));
+	}
+
+	DBG_PRINT(("----------串口测试----------"));
+	if(uartTest() != 0)
+	{
+		DBG_PRINT(("串口测试失败!"));
+		//m_serialProtocol->Rsp_ERR("串口测试失败!");
+		m_serialProtocol->FillParament("串口测试失败!", strlen("串口测试失败!"));
+	}
+	else
+	{
+		DBG_PRINT(("串口测试成功!"));
+		m_serialProtocol->FillParament("串口测试成功!", strlen("串口测试成功!"));
+
+		//m_serialProtocol->Rsp_OK();
+	}
+
+
+	DBG_PRINT(("----------金税盘测试----------"));
+	if(udiskTest() != 0)
+	{
+		DBG_PRINT(("金税盘测试失败!"));
+		//m_serialProtocol->Rsp_ERR("JSP Test Failed");
+		m_serialProtocol->FillParament("金税盘测试失败!", strlen("金税盘测试失败!"));
+	}
+	else
+	{
+		DBG_PRINT(("金税盘测试成功!"));
+		m_serialProtocol->FillParament("金税盘测试成功!", strlen("金税盘测试成功!"));
+		m_serialProtocol->Rsp_OK();
+	}
+	m_serialProtocol->Rsp_OK();
+	return SUCCESS;
+}
+
+//烧写MAC
+UINT8 CUniversialSerialCommunicate::writeMAC(){
+	DBG_PRINT(("----------烧写MAC----------"));
+	return SUCCESS;
+}
+
+//烧写机器编号
+UINT8 CUniversialSerialCommunicate::writeMachineNo(){
+	DBG_PRINT(("----------烧写机器编号----------"));
+	return SUCCESS;
+}
 
 

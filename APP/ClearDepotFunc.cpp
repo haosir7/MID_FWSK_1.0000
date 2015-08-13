@@ -14,9 +14,9 @@
 #include "pos_debug.h"
 
 
-#define SQL_CMD "../sqlite3 LIBAWE < ../libawe.sql" //重建数据库命令
+#define SQL_CMD "./sqlite3 LIBAWE < ./libawe.sql" //重建数据库命令
 #define RM_CMD "rm -rf LIBAWE" //删除数据库文件命令
-#define SAVEINFO_CMD "../sqlite3 LIBAWE < saveinfo.sql"
+#define SAVEINFO_CMD "./sqlite3 LIBAWE < saveinfo.sql"
 #define SAVEINFO_DIR "saveinfo.sql"  //写机器编码的文件
 
 

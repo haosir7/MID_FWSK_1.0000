@@ -89,8 +89,19 @@ UINT8 SerialProtocol::revData()
 		else 
 		{
 			headLen = ZC_PROTOCOL==m_revCmd->cmdType? REVPACK_ZC_HEAD_LENGTH: REVPACK_AISINO_HEAD_LENGTH;
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+			DBG_PRINT(("m_revCmd->cmdType = %x", m_revCmd->cmdType));
+			if (PRN_PROTOCOL == m_revCmd->cmdType)
+			{
+				DBG_NPRINT_HEX((m_revBuf+headLen), m_revCmd->cmdLen-headLen);
+				PrintLine((m_revBuf+headLen), m_revCmd->cmdLen-headLen);
+			} 
+			else
+#endif
+			{
 			memcpy((void *)(businessData+m_revCmd->dataLen), (void *)(m_revBuf+headLen), m_revCmd->cmdLen-headLen);
 			m_revCmd->dataLen += (m_revCmd->cmdLen-headLen);
+		}
 		}
 	} while (0 != m_revCmd->PackNo);
 
@@ -201,6 +212,11 @@ UINT8 SerialProtocol::Rev_Pack()
 	datalen = ZC_PROTOCOL == cmdType? m_revBuf[4]:getShort(m_revBuf+4);
 	DBG_PRINT(("cmdType=%u, cmdno=%u, packageno=%u, datalen=%u", cmdType, cmdno, packageno, datalen));
 	DBG_PRINT(("lastType=%u, lastpackageno=%u, lastcmdno=%u", lastType, m_revCmd->PackNo, m_revCmd->cmdNo));
+	if (SERIAL_BUFFER_MAX_LEN < datalen+CRC_LEN)
+	{
+		DBG_PRINT(("package data is too long!!!"));
+		return SERCMD_HEAD_PARA_ERR;
+	}
 	//如果是多包发送，要保证命令类型、名字字和之前一致，且包序号为递增
 	if (0 < packageno)
 	{
@@ -560,7 +576,12 @@ void SerialProtocol::Rsp_OK()
 	packageNo = 0;
 	DBG_PRINT(("m_revCmd->cmdType = %x", m_revCmd->cmdType));
 	headLen = ZC_PROTOCOL==m_revCmd->cmdType? RSPPACK_ZC_HEAD_LENGTH: RSPPACK_AISINO_HEAD_LENGTH;
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION
+	bufLen = 90;
+#else
 	bufLen = ZC_PROTOCOL==m_revCmd->cmdType? SERIAL_PACKAGE_ZC_MAX_LEN: SERIAL_PACKAGE_AISINO_MAX_LEN;
+#endif
+	
 	DBG_PRINT(("m_fill_count=%u, headLen=%u, bufLen=%u", m_fill_count, headLen, bufLen));
 	if (m_fill_count+headLen+CRC_LEN <= bufLen)
 	{
@@ -915,3 +936,20 @@ void SerialProtocol::ser_delay(UINT32 Msecs)
     return;
 }
 
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+bool SerialProtocol::InitPrinterPort(INT8 *devpath, int baud)
+{
+	m_printerfd = openPrinterPort(devpath, baud);
+	return (0 < m_printerfd) ? SUCCESS : FAILURE;
+}
+bool SerialProtocol::ReleasePrinterPort()
+{
+	closePrinterPort();
+	return SUCCESS;
+}
+UINT8 SerialProtocol::PrintLine(UINT8 *printdata, INT32 printlen)
+{
+	printLine(printdata, printlen);
+	return SUCCESS;
+}
+#endif

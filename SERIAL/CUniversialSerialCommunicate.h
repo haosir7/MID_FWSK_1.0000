@@ -11,6 +11,7 @@
 #include "InvBusinessFunc.h"
 #include "DeclareBusinessFunc.h"
 #include "YWXMLGY.h"
+#include "selfTest.h"
 
 using namespace std;
 
@@ -95,6 +96,15 @@ private:
 	UINT8 getErrUpInv();
 	//安全通道连接测试
 	UINT8 sslConnectTest();
+
+        //应用升级
+	UINT8 programUpdate();
+	//系统自检
+	UINT8 sysTest();
+	//烧写MAC
+	UINT8 writeMAC();
+	//烧写机器编号
+	UINT8 writeMachineNo();
 
 	//配置IP地址函数
 	int ifConfig(const char *ifname,  const char *ipaddr,const char *netmask, const char *gwip, const char *dns);

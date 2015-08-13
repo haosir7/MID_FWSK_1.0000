@@ -5,12 +5,31 @@
 //#include "error_code.h"
 #include "VersionConfig.h"
 
+#define NET_VERSION					1		//网络版本
+#define NO_NET_VERSION				2		//无网络版本
+#define BLUETOOTH_VERSION			3		//蓝牙版本
+
+#define COMMUNICATE_VERSION			NO_NET_VERSION
+
 #if (PROJECT_TYPE_MODE == PROJECT_TYPE_ARM9)
-#define SERIAL_DEVICE						"/dev/ttyS5"
-#elif (PROJECT_TYPE_MODE == PROJECT_TYPE_A5)
-#define SERIAL_DEVICE						"/dev/ttyS1"
+#define USB_SERIAL_DEVICE						"/dev/ttyS5"
+#elif (PROJECT_TYPE_MODE == PROJECT_TYPE_A5_ZHH)
+#define USB_SERIAL_DEVICE						"/dev/ttyS1"
+#define PRINTER_SERIAL_DEVICE				USB_SERIAL_DEVICE
+#elif (PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ)
+#define USB_SERIAL_DEVICE						"/dev/ttyS1"
+#define PRINTER_SERIAL_DEVICE					"/dev/ttyS4"
 #endif
-//#define SERIAL_BAUDRATE						9600
+
+#define BLUETOOTH_SERIAL_DEVICE				"/dev/ttyS2"
+
+#if (COMMUNICATE_VERSION==NET_VERSION)
+#define SERIAL_DEVICE						USB_SERIAL_DEVICE
+#elif (COMMUNICATE_VERSION==NO_NET_VERSION)
+#define SERIAL_DEVICE						USB_SERIAL_DEVICE
+#elif (COMMUNICATE_VERSION==BLUETOOTH_VERSION)
+#define SERIAL_DEVICE						BLUETOOTH_SERIAL_DEVICE
+#endif
 
 #define SERIAL_BUFFER_MAX_LEN				65535UL							//串口Buf最大长度	
 #define BUSINESS_DATA_BUF_MAX_LEN			1*1024*1024						//业务缓冲区长度

@@ -17,6 +17,9 @@ private:
 	UINT32 m_fill_count;
 	UINT32 m_get_count;
 	UINT8 packageNo;
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+	INT32 m_printerfd;
+#endif
 
 	UINT8 m_revBuf[SERIAL_BUFFER_MAX_LEN];
 	UINT8 m_rspBuf[SERIAL_BUFFER_MAX_LEN];
@@ -61,6 +64,11 @@ public:
 	// function for serial init
 	bool InitPort(INT8 *devpath, int baud);
 	bool ReleasePort ();
+#if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
+	bool InitPrinterPort(INT8 *devpath, int baud);
+	bool ReleasePrinterPort();
+	UINT8 PrintLine(UINT8 *printdata, INT32 printlen);
+#endif
 
 	inline INT32 getSerialfd() {return m_devfd;};
 	UINT8 sendData(UINT8 type, UINT8 cmd);
