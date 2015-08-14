@@ -5,11 +5,6 @@
 //#include "error_code.h"
 #include "VersionConfig.h"
 
-#define NET_VERSION					1		//ÍøÂç°æ±¾
-#define NO_NET_VERSION				2		//ÎÞÍøÂç°æ±¾
-#define BLUETOOTH_VERSION			3		//À¶ÑÀ°æ±¾
-
-#define COMMUNICATE_VERSION			NO_NET_VERSION
 
 #if (PROJECT_TYPE_MODE == PROJECT_TYPE_ARM9)
 #define USB_SERIAL_DEVICE						"/dev/ttyS5"

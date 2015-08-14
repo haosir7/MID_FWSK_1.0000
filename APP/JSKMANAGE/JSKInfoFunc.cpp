@@ -3711,7 +3711,7 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 	DBG_PRINT(("nLine= %u",nLine));
 	//DBG_PRINT(("chBuf=%s",chBuf));
 	
-	TFpmxSum	*pFpmxSum = (TFpmxSum *)chBuf;
+	TFpmxSum  *pFpmxSum = (TFpmxSum *)chBuf;
 	
 	//发票信息明细
 	UINT32 nDtailLen =strlen(chBuf);
