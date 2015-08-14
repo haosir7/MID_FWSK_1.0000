@@ -1895,7 +1895,7 @@ UINT8 CUniversialSerialCommunicate::setBaudRate(){
 		sprintf(sqlbuf, "where SA_ID = %u", SYS_SERIAL_BAUDRATE);
 	if(sysArg.Update(sqlbuf, &sysArg.m_vInt, NULL) != SQLITE_OK)
 	{
-		m_serialProtocol->Rsp_ERR("串口波特率保存错误");
+		m_serialProtocol->Rsp_ERR("串口波特率保存失败");
 		return FAILURE;
 	}
 		
