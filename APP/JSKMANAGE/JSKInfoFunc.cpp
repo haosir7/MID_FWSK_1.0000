@@ -3549,13 +3549,11 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 {
 	
 	INT8 chBackupBuf[256];
-	memset((void*)chBackupBuf, 0, sizeof(chBackupBuf));	
 	UINT8 maxLineNum = 23;		//正常从金税盘读取数据解析行数
 	if(flag == 1)
 		maxLineNum += 9;		//增加发票上传时加入的解析行数
 	
 	INT8 chBuf[MAX_INV_INFO_LEN];
-	memset((void*)chBuf, 0, sizeof(chBuf));	
 	
 	UINT8 nLine=0;
     UINT32 tmpLen=0;
@@ -3570,6 +3568,8 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 	do
 	{
 		tmpStr = "";
+		memset((void*)chBackupBuf, 0, sizeof(chBackupBuf));	
+		memset((void*)chBuf, 0, sizeof(chBuf));	
 		textParse.getSubStrByFlag(tmpStr, NEWLINE_COMMAND);
 		nLine++;
 		//  		DBG_PRINT(("nLine= %u",nLine));
