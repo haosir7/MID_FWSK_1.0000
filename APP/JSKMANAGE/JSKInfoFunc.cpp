@@ -2740,8 +2740,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
 	//unsigned int DataLen;  /*发票数据长度*/
 	//unsigned char *DataPtr; /*发票数据明细*/
 	
-	//	memset((void *)JSK_InvBuf,0x00,sizeof(JSK_InvBuf));
-	
+	memset((void *)JSK_InvBuf,0x00,sizeof(JSK_InvBuf));
 	
 	DBG_PRINT(("pInvDetail->DataPtr= 0x%02x",pInvDetail->DataPtr));
 	DBG_PRINT(("pInvDetail->DataLen= %u",pInvDetail->DataLen));
