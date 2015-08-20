@@ -154,13 +154,13 @@ INT32 CInvUpResult::CommunicationProc(void* pDataIn, void* pDataOut, string &str
 	noteData.m_appType = NET_FPSCJGXZ;	//此处设置业务类型
 	DataOutType dataOut(g_Xml_OutBuf_Inv, PROTOCOL_OUT_BUFF_LEN);
 	res = BuildXml(pDataIn, &dataOut, &noteData, strErr);
-	DBG_PRINT(("res = %u", res));
+	DBG_PRINT(("res = %d", res));
 	if (res != SUCCESS)
 	{
 		return res;
 	}
 	
-	DBG_PRINT(("outLen = %u", dataOut.outLen));
+	DBG_PRINT(("outLen = %d", dataOut.outLen));
 
 	//////////////////////////////////////////////////////////////////////////
 	//此处为处理流程，将上面组织的数据发送给库SSL接口，接收到的数据放入g_Xml_OutBuf_Inv中。
@@ -185,10 +185,14 @@ INT32 CInvUpResult::CommunicationProc(void* pDataIn, void* pDataOut, string &str
 	memset(errBuf, 0, sizeof(errBuf));
 	
 	int retval = 0;
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexLock();
+#endif
 	retval=aisino_ssl_transfer_call(SSL_AUTH_CODE,(char*)strTechMsg.c_str(),strTechMsg.size(),
 		(unsigned char*)g_Xml_OutBuf_Inv,dataOut.outLen,(unsigned char*)g_Xml_ExchangeBuf_Inv,&rec_len,errBuf);
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexUnlock();
+#endif
 	DBG_PRINT(("retval = %d", retval));
 	if( retval != 0)
 	{
@@ -212,7 +216,7 @@ INT32 CInvUpResult::CommunicationProc(void* pDataIn, void* pDataOut, string &str
 
 	DBG_PRINT(("7 开始解析从SSL返回的XML文件"));
 	res = ParseXml(pDataOut, &dataOut, &noteData, strErr);
-	DBG_PRINT(("res = %u", res));
+	DBG_PRINT(("res = %d", res));
 	if (res != SUCCESS)
 	{
 		return res;

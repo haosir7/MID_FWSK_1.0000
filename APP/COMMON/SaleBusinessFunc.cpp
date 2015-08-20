@@ -3,6 +3,12 @@
 #include "BusinessBase.h"
 #include "commonFunc.h"
 
+#if BUSINESS_TYPE_MODE == BUSINESS_JSK_MODE
+#include "CGlobalArgLib.h"
+#else
+#include "CGlobalArg.h"
+#endif
+
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
 #include "pos_debug.h"
@@ -81,6 +87,7 @@ INT32 CSaleBusinessFunc::InvoiceUpload(CYWXML_GY &ywxml_gy, string &strErr)
 	UINT8 xxlx = SKSBQTYXXCX_XXLX_FPSCJGHQ;
 	string strSksbxx("");
 	string slxlh("");
+	UINT8 errNetFlag=0;
 
 	//从金税盘获取上传发票信息
 	ret = g_pBusBase->FPSC_Business(ywxml_gy, czlx, fpzx, strInvInfo, strErr);
@@ -97,12 +104,23 @@ INT32 CSaleBusinessFunc::InvoiceUpload(CYWXML_GY &ywxml_gy, string &strErr)
 		{
 			break;
 		}
+		if(errNetFlag >= MAX_NET_ERR_NUM)
+		{
+#if BUSINESS_TYPE_MODE == BUSINESS_JSK_MODE
+			g_globalArgLib->m_pthreadFlag = 0;
+#else
+			g_globalArg->m_pthreadFlag = 0;
+#endif
+			break;
+		}
 
 		if(upFlag == 0)
 		{
 			//调用网络上传接口，上传发票信息
 			ret = g_pBusBase->NETFPSC_Business(ywxml_gy, strInvInfo, fpzx, slxlh, strErr);
 			DBG_PRINT(("ret = %d", ret));
+			if(ret < -255)
+				errNetFlag++;
 			ret = g_pBusBase->ErrParse(ret, strErr);
 			if(ret != SUCCESS)
 			{
@@ -111,6 +129,7 @@ INT32 CSaleBusinessFunc::InvoiceUpload(CYWXML_GY &ywxml_gy, string &strErr)
 				continue;
 			}
 			CommonSleep(3*nTime);
+			errNetFlag = 0;
 			upFlag = 1;
 			nCount = 0;
 		}
@@ -124,6 +143,8 @@ INT32 CSaleBusinessFunc::InvoiceUpload(CYWXML_GY &ywxml_gy, string &strErr)
 			}
 			//获取上传结果密文
 			ret = g_pBusBase->FPSCJGHQ_Business(ywxml_gy, strSksbxx, strMxjgmw, strErr);
+			if(ret < -255)
+				errNetFlag++;
 			ret = g_pBusBase->ErrParse(ret, strErr);
 			if( ret != SUCCESS )
 			{
@@ -131,6 +152,7 @@ INT32 CSaleBusinessFunc::InvoiceUpload(CYWXML_GY &ywxml_gy, string &strErr)
 				CommonSleep(nCount*nTimeCount*nTime);
 				continue;
 			}
+			errNetFlag = 0;
 
 			//将上传结果密文更新到金税盘
 			ret = g_pBusBase->FPGX_Business(ywxml_gy, strMxjgmw, strErr);
@@ -154,11 +176,11 @@ INT32 CSaleBusinessFunc::FpblProStart(CYWXML_GY &ywxml_gy, UINT32 SDate, UINT32 
 	return ret;
 }
 
-INT32 CSaleBusinessFunc::GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)
+INT32 CSaleBusinessFunc::GetErrUpInvInfo(CYWXML_GY &ywxml_gy, CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)
 {
 	INT32 ret = SUCCESS;
 	
-	ret = g_pBusBase->GetErrUpInvInfo(pDataInvServ, nCount, strErr);
+	ret = g_pBusBase->GetErrUpInvInfo(ywxml_gy, pDataInvServ, nCount, strErr);
 	ret = g_pBusBase->ErrParse(ret, strErr);
 	
 	return ret;

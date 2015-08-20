@@ -330,6 +330,7 @@ void CJSKInfoFunc::MutexUnlock(void)
 void CJSKInfoFunc::set_Para(string jqbh, string jspkl, string bspkl)
 {
 	MutexLock();
+	DBG_PRINT(("========set_Para=========="));
 
 	m_jqbh = jqbh;
 	m_jspkl = jspkl;
@@ -406,7 +407,7 @@ INT32 CJSKInfoFunc::JSK_Proc(UINT8 pp1,UINT8 pp2,UINT8 *pInBuf,UINT16 InLen, UIN
 	
 	//如果金穗盘尚未执行open操作,则主动调用open函数
 	flag = 0;
-	DBG_PRINT(("pp1=0x%02x, pp2= %u, InLen = %u",pp1,pp2, InLen));
+	DBG_PRINT(("pp1=0x%02u, pp2= %u, InLen = %u",pp1,pp2, InLen));
 	//ret = jsk_operate_r(pp1, pp2 ,( UINT8 *)pJSKSendBuf, InLen, ( UINT8 *)pJSKRevBuf,&OutLen);
 	ret = jsk_operate_r(pp1, pp2 ,pInBuf, InLen, pOutBuf,&OutLen);
 	DBG_PRINT(("ret= %d, OutLen= %u",ret,OutLen));
@@ -424,6 +425,10 @@ INT32 CJSKInfoFunc::JSK_Proc(UINT8 pp1,UINT8 pp2,UINT8 *pInBuf,UINT16 InLen, UIN
 			sprintf(chBuf+JSK_PASSWORD_LEN, "%s", m_jqbh.c_str());
 			Size=JSK_PASSWORD_LEN+JSK_MAX_JQBH_LEN;
 			DBG_PRINT(("Size = %d", Size));
+			DBG_PRINT(("chBuf = %s", chBuf));
+			for(int i=0; i<Size; i++)
+				printf("%02x ", chBuf[i]);
+			printf("\n");
 			
 			ret = JSK_Open_Proc((UINT8 *)chBuf,Size,strErr);
 			DBG_PRINT(("ret= %d",ret))
@@ -499,24 +504,7 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	}
 	
     //处理接收数据	
-	//	memcpy((void *)pTaxCardInfo,pJSKRevBuf,sizeof(TaxCardInfo));
-	
-	//DBG_PRINT(("pJSKRevBuf= %s, %d",pJSKRevBuf,strlen((char *)pJSKRevBuf)));
-	
-	
-	//处理接收数据
     TaxCardInfo	*pTaxCardInfo = (TaxCardInfo *)pJSKRevBuf;
-	
-	for (int i=0; i<nOutLen;i++)
-	{
-		//	DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-		
-	}
-	for (int j=0;j<2;j++)
-	{
-		//	DBG_PRINT(("pTaxCardInfo->KPNo[%d]=Ox%x",j,pTaxCardInfo->KPNo[j]));
-	}
-	
 	
 	pUserInfo->m_Nsrmc=(INT8 *)pTaxCardInfo->CorpName;
 	DBG_PRINT(("pUserInfo->m_Nsrmc= %s",pUserInfo->m_Nsrmc.c_str()));
@@ -540,7 +528,6 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 		pUserInfo->m_Kpjhm = 0;
 	}
 	DBG_PRINT(("pUserInfo->m_Kpjhm= %u",pUserInfo->m_Kpjhm));
-	//	DBG_PRINT(("pUserInfo->m_subMachNo= %s",pUserInfo->m_subMachNo.c_str()));
 	
 	/*纳税人企业性质 数字0表示一般纳税人；数字1表示小规模纳税人*/
 	pUserInfo->m_Nsrxz = pTaxCardInfo->CorpPorpertiy;
@@ -795,14 +782,6 @@ INT32 CJSKInfoFunc::GetHashNo(UINT8 *HashNo,UINT8 *AddrNo,string &strErr, UINT8 
 		JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 		return ret;
 	}
-	
-	for (int i=0; i<nOutLen;i++)
-	{
-		
-		DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-		
-	}
-	
 	
 	bin2char(pJSKRevBuf,(INT8 *)AddrNo,3);
 	DBG_PRINT(("AddrNo = %s", AddrNo));
@@ -1073,13 +1052,11 @@ INT32 CJSKInfoFunc::GetBSPKpjh(UINT8 *BSPKpjh,string &strErr)
 //返回值：
 //----------------------------------------------------------
 INT32 CJSKInfoFunc::GetOffLimitInfo(CInvKind *invKind,UINT32 &invKindNum, string &strErr)
-{
-	
+{	
 	INT32 ret=JSK_SUCCESS;
 	DBG_ENTER("GetOffLimitInfo");
 	//DBG_ASSERT_EXIT(pInvVol != NULL), (" pInvVol == NULL "));
 	UINT16 nOutLen=0;
-
 	UINT8 *pJSKSendBuf =NULL;
     UINT8 *pJSKRevBuf =NULL;
 
@@ -1098,21 +1075,9 @@ INT32 CJSKInfoFunc::GetOffLimitInfo(CInvKind *invKind,UINT32 &invKindNum, string
 		return ret;
 	}
 	
-	//处理接收数据
-	
+	//处理接收数据	
 	TOffLimintInfo *pOffLimintInfo = (TOffLimintInfo *)pJSKRevBuf;
-	
-	
-   	//DBG_PRINT(("pJSKRevBuf= %s, %d",pJSKRevBuf,strlen((char *)pJSKRevBuf)));
-	
-	
-	for (int i=0; i<nOutLen;i++)
-	{
-		//	DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-		//	DBG_PRINT(("pJSKRevBuf[%d]=%d",i,pJSKRevBuf[i]));
 		
-	}
-	
 	if (invKindNum < pOffLimintInfo->AuthLimitInfo.invNum)
 	{
 		strErr="获取票种的条数超限";
@@ -1133,34 +1098,14 @@ INT32 CJSKInfoFunc::GetOffLimitInfo(CInvKind *invKind,UINT32 &invKindNum, string
 		invKind[i].m_Lxkjsj = pOffLimintInfo->OffLineInvTime;
 		DBG_PRINT(("pOffLimintInfo->OffLineInvTime= %u",pOffLimintInfo->OffLineInvTime));
 		
-		invKind[i].m_fplx = pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invName;
-		
+		invKind[i].m_fplx = pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invName;		
 		DBG_PRINT(("InvSixLimit[%d].invName= %u",i,pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invName));
-		
-		//DBG_PRINT(("invLimit=%s",pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invLimit));
-		//DBG_PRINT(("OffLinePosTotalLimit=%s",pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].OffLinePosTotalLimit));
-		
-		//invKind[i].m_maxSign =atoll((INT8 *)pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invLimit);
-		//invKind[i].m_maxSum =atoll((INT8 *)pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].OffLinePosTotalLimit);
-		
-		for (int k=0; k<6; k++)
-		{
-			//	DBG_PRINT(("invLimit[%d]= 0x%02x",k,pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invLimit[k]));
-		}
 		
 		invKind[i].m_maxSign=0;
 		memcpy((void *)&invKind[i].m_maxSign,(void *)pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].invLimit,6);
 		
-		
-		for (int k=0; k<6; k++)
-		{
-			//DBG_PRINT(("OffLinePosTotalLimit[%d]= 0x%02x",k,pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].OffLinePosTotalLimit[k]));
-		}
-		
 		invKind[i].m_maxSum=0;
 		memcpy((void *)&invKind[i].m_maxSum,(void *)pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].OffLinePosTotalLimit,6);
-		
-		//invKind[i].m_maxSign =Hex2Int((UINT8 *)pOffLimintInfo->AuthLimitInfo.InvSixLimit[i].OffLinePosTotalLimit,6);
 		
 		DBG_PRINT(("invKind[%d].m_maxSign= %lld",i,invKind[i].m_maxSign));
 		DBG_PRINT(("invKind[%d].m_maxSum= %lld",i,invKind[i].m_maxSum));
@@ -1470,7 +1415,7 @@ INT32 CJSKInfoFunc::NetCopyTax(UINT8 Type,UINT8 *StartDate,UINT8 *EndDate,UINT8 
 		return ret;
 	}
 	
-    DBG_PRINT(("nOutLen= %d",nOutLen));
+    DBG_PRINT(("nOutLen= %u",nOutLen));
 	
 	INT8 tmpBuf[32];
 	
@@ -1495,7 +1440,7 @@ INT32 CJSKInfoFunc::NetCopyTax(UINT8 Type,UINT8 *StartDate,UINT8 *EndDate,UINT8 
 	
 	//抄税汇总信息
 	nTaxLen = nOutLen - 14;
-    DBG_PRINT(("nTaxLen= %d",nTaxLen));
+    DBG_PRINT(("nTaxLen= %u",nTaxLen));
 	//	memcpy((void *)NetTaxInfo,(void *)pNetCopyTax->CopyTax,nTaxLen);
 	bin2char(pNetCopyTax->CopyTax, (INT8 *)NetTaxInfo, nTaxLen);
 	DBG_PRINT(("NetTaxInfo = %s", NetTaxInfo));
@@ -1523,7 +1468,7 @@ INT32 CJSKInfoFunc::NetCopyTaxDate(UINT8 Type,UINT8 *StartDate,UINT8 *EndDate,st
 		return ret;
 	}
 	
-    DBG_PRINT(("nOutLen= %d",nOutLen));
+    DBG_PRINT(("nOutLen= %u",nOutLen));
 	
 	INT8 tmpBuf[32];
 	
@@ -1700,22 +1645,12 @@ INT32 CJSKInfoFunc::AppNetInvVol(UINT8 Type,UINT16 &outLen,UINT8 *NetEmpowData, 
 	DBG_PRINT(("nOutLen = %u", nOutLen));
 	//处理接收数据
 	//   TNetInvVolInfo	*pTNetInvVolInfo = (TNetInvVolInfo *)pJSKRevBuf;
-	for (int i=0; i<32;i++)
-	{
-		DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	}
 	
 	/*网络购票预授权信息(密文)*/
 	memcpy((void *)NetEmpowData,(void *)pJSKRevBuf,	nOutLen);
 	outLen = nOutLen;
 	//	DBG_PRINT(("NetEmpowInfo= %s",NetEmpowInfo));
 	
-	for (int i=0;i<16;i++)
-	{
-		//DBG_PRINT(("*(NetEmpowInfo+%d)=Ox%x",i,*(NetEmpowInfo+i)));
-		//printf("Ox%x ",*(NetEmpowData+i));
-		
-	}
 	JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 	return JSK_SUCCESS;	
 }
@@ -1765,8 +1700,7 @@ INT32 CJSKInfoFunc::App2NetInvVol(UINT8 Type,UINT16 &outLen,UINT8 *NetCrypData,C
 	UINT8 *pJSKSendBuf =NULL;
     UINT8 *pJSKRevBuf =NULL;
 	JSK_NewBuf(&pJSKSendBuf,&pJSKRevBuf);
-	
-	
+		
     int2hex(pJSKSendBuf,Type,1);
 	
 	//接收数据
@@ -1788,30 +1722,16 @@ INT32 CJSKInfoFunc::App2NetInvVol(UINT8 Type,UINT16 &outLen,UINT8 *NetCrypData,C
 	//   TNetInvVolInfo	*pTNetInvVolInfo = (TNetInvVolInfo *)pJSKRevBuf;
 	DBG_PRINT(("nOutLen = %u", nOutLen));
 	
-	for (int i=0; i<nOutLen;i++)
-	{
-		//	DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	}
-	
-	
-	//处理接收数据
-	
+	//处理接收数据	
 	TApp2NetInfo *pApp2NetInInfo = (TApp2NetInfo *)pJSKRevBuf;
 	
 	
-	memcpy((void *)NetCrypData,(void *)pApp2NetInInfo->NetInvInfo,	JSK_NET_INV_CON_LEN);
-	
-	
+	memcpy((void *)NetCrypData,(void *)pApp2NetInInfo->NetInvInfo,	JSK_NET_INV_CON_LEN);	
 	pInvVol->m_invtype= pApp2NetInInfo->InvType;
-	
-	pInvVol->m_fpzfs =pApp2NetInInfo->Count;
-	
-	pInvVol->m_isno =pApp2NetInInfo->InvNo;
-	
+	pInvVol->m_fpzfs =pApp2NetInInfo->Count;	
+	pInvVol->m_isno =pApp2NetInInfo->InvNo;	
 	pInvVol->m_code =pApp2NetInInfo->InvCode;
-	
-	
-	
+		
 	outLen = nOutLen;
 	JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 	return JSK_SUCCESS;	
@@ -1890,12 +1810,6 @@ INT32 CJSKInfoFunc::BSPGetInvVolInfo(UINT8 Type,string &strErr)
 	
 	
 	int2hex(pJSKSendBuf,Type,1);
-	for (int i=0; i<1;i++)
-	{
-		DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKSendBuf[i]));
-	}
-	   
-	
 	//接收数据
 	ret =JSK_Proc(GET_NET_INVOL_INFO,6,pJSKSendBuf,1,pJSKRevBuf,nOutLen,strErr);
     DBG_PRINT(("ret= %d",ret));
@@ -1936,12 +1850,6 @@ INT32 CJSKInfoFunc::GetJSKInvVolInfo(CInvVol *invVol, UINT32 &nInvNum, string &s
 	}
 	
 	//处理接收数据
-	
-	// 	for (int i=0; i<nOutLen;i++)
-	// 	{
-	// 		DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	// 	}
-	
     TInvVol	*pTInvVol = (TInvVol *)pJSKRevBuf;
 	
 	
@@ -2035,11 +1943,6 @@ INT32 CJSKInfoFunc::GetCurInvInfo(CInvVol *pInvVol,string &strErr)
 	
     //处理接收数据
 	TCurInvInfo *pTCurInv = (TCurInvInfo *)pJSKRevBuf;
-	
-	for (int i=0; i<nOutLen; i++)
-	{
-		//DBG_PRINT(("pJSKRevBuf[%d]=0x%02x ",i,pJSKRevBuf[i]));
-	}
 	
 	pInvVol->m_curInvNo =  pTCurInv->InvNo;
 	pInvVol->m_invtype =pTCurInv->Type;
@@ -2137,15 +2040,17 @@ INT32 CJSKInfoFunc::MakeInvHandInfo(CInvHead *pInvHead, string &strErr)
 	
 	memset((void *)JSK_InvBuf,0x00,sizeof(JSK_InvBuf));
     UINT32 tmpInvLen=0;
-	DBG_PRINT(("pTInvHead->taxCardInvHead.DataPtr=0x%02x",pTInvHead->taxCardInvHead.DataPtr));
+//	DBG_PRINT(("pTInvHead->taxCardInvHead.DataPtr=0x%02x",pTInvHead->taxCardInvHead.DataPtr));
 	DBG_PRINT(("pTInvHead->taxCardInvHead.DataLen= %u",pTInvHead->taxCardInvHead.DataLen));
+	MutexLock();
 	InvDetail2Data(pInvHead,(UINT8 *)JSK_InvBuf,tmpInvLen);
+	MutexUnlock();
 //	printf("-------------------\n%s\n--------------------\n",JSK_InvBuf);
 	
 	pTInvHead->taxCardInvHead.DataPtr =(UINT8 *)JSK_InvBuf;
 	pTInvHead->taxCardInvHead.DataLen = tmpInvLen;
     
-	DBG_PRINT(("pTInvHead->taxCardInvHead.DataPtr=0x%02x",pTInvHead->taxCardInvHead.DataPtr));
+//	DBG_PRINT(("pTInvHead->taxCardInvHead.DataPtr=0x%02x",pTInvHead->taxCardInvHead.DataPtr));
 	DBG_PRINT(("pTInvHead->taxCardInvHead.DataLen= %u",pTInvHead->taxCardInvHead.DataLen));
 	
 	DBG_PRINT(("tmpInvLen= %u",tmpInvLen));
@@ -2177,11 +2082,6 @@ INT32 CJSKInfoFunc::MakeInvHandInfo(CInvHead *pInvHead, string &strErr)
 		JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 		return ret;
 	}
-	
-	// 	for (int i=0; i<nOutLen;i++)
-	// 	{
-	//	DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	// 	}
 	
 	UINT32 tmpLen=0;
 	UINT32 nFiscalLen = 0;
@@ -2217,7 +2117,7 @@ INT32 CJSKInfoFunc::MakeInvHandInfo(CInvHead *pInvHead, string &strErr)
 	Base64_Encode_2((UINT8 *)tmpBuf, nSignLen);
 #endif
 	pInvHead->m_casign =tmpBuf;
-	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
+//	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
 	
 	JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 	return JSK_SUCCESS;			
@@ -2277,11 +2177,6 @@ INT32 CJSKInfoFunc::WasteInvHandInfo(CInvHead *pInvHead,string &strErr)
 	UINT32 nLen =sizeof(TInvCancel);
 	DBG_PRINT(("nLen= %u",nLen));
 	
-	for (int i=0; i<nLen;i++)
-	{
-		//	DBG_PRINT(("pJSKSendBuf[%d]=Ox%x",i,pJSKSendBuf[i]));
-	}
-	
 	ret =JSK_Proc(INVOICE_WASTE_FUN,0,pJSKSendBuf,nLen, pJSKRevBuf,nOutLen,strErr);
 	
 	DBG_PRINT(("ret= %d",ret));
@@ -2289,11 +2184,6 @@ INT32 CJSKInfoFunc::WasteInvHandInfo(CInvHead *pInvHead,string &strErr)
 	{
 		JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 		return ret;
-	}
-	
-    for (int i=0; i<nOutLen;i++)
-	{
-		//	DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));	
 	}
 	
 	UINT32 tmpLen=0;
@@ -2310,7 +2200,7 @@ INT32 CJSKInfoFunc::WasteInvHandInfo(CInvHead *pInvHead,string &strErr)
 	Base64_Encode_2((UINT8 *)tmpBuf, nSignLen);
 #endif
 	pInvHead->m_casign =tmpBuf;
-	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
+//	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
 	tmpLen +=nSignLen;
 	
 	
@@ -2323,16 +2213,10 @@ INT32 CJSKInfoFunc::WasteInvHandInfo(CInvHead *pInvHead,string &strErr)
 	
 	
 	//作废日期
-	for (int i=0; i<7;i++)
-	{
-		//DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[tmpLen+i]));	
-	}
-	
     memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
     Hex2Char((UINT8 *)(pJSKRevBuf+tmpLen),tmpBuf,7);
 	pInvHead->m_zfsj = tmpBuf;
-	
-	DBG_PRINT(("pInvHead->m_CurTime= %s",pInvHead->m_CurTime.c_str()));
+	DBG_PRINT(("pInvHead->m_zfsj= %s",pInvHead->m_zfsj.c_str()));
 	
 	JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
 	return JSK_SUCCESS;	
@@ -2657,19 +2541,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
 		Char2Hex(pQueryInfo->InvIndex,pInvHead->m_fpsyh.c_str(),4);
 	}
 	
-	
-	for (int i=0; i<4;i++)
-	{
-		//DBG_PRINT(("pQueryInfo->InvIndex[%d] = 0x%02x",i,pQueryInfo->InvIndex[i] ));
-	}
-	
-	
 	UINT16 nLen =sizeof(TQueryInfo);
-	
-	for (int i=0; i<nLen;i++)
-	{
-		//	DBG_PRINT(("pJSKSendBuf[%d]=Ox%x",i,pJSKSendBuf[i]));
-	}
 	ret =JSK_Proc(GET_INVIOCE_INFO,0,pJSKSendBuf,nLen,pJSKRevBuf,nOutLen,strErr);
 	DBG_PRINT(("ret= %d",ret));
 	if( ret !=JSK_SUCCESS)
@@ -2699,11 +2571,6 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
 	DBG_PRINT(("pInvHead->m_fpdm= %u",pInvHead->m_fphm));
 	
 	/* 开票日期*/
-	for (int k=0;k<7;k++)
-	{
-		//	DBG_PRINT(("pInvDetail->Date[%d]=0x%02x",k,pInvDetail->Date[k]));
-	}
-	
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
 	Hex2Char(pInvDetail->Date,tmpBuf,7);
 	//DBG_PRINT(("tmpBuf= %s",tmpBuf));
@@ -2742,25 +2609,16 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
 	
 	memset((void *)JSK_InvBuf,0x00,sizeof(JSK_InvBuf));
 	
-	DBG_PRINT(("pInvDetail->DataPtr= 0x%02x",pInvDetail->DataPtr));
+	
+//	DBG_PRINT(("pInvDetail->DataPtr= 0x%02x",pInvDetail->DataPtr));
 	DBG_PRINT(("pInvDetail->DataLen= %u",pInvDetail->DataLen));
 	
-	for (int i=0; i<40; i++)
-	{
-		//DBG_PRINT(("pInvDetail->DataPtr[%d]=0x%02x",i,pInvDetail->DataPtr[i]));
-	}
-	
-	memcpy((void *)JSK_InvBuf,(void *)pInvDetail->DataPtr,pInvDetail->DataLen);
-	
+	memcpy((void *)JSK_InvBuf,(void *)pInvDetail->DataPtr,pInvDetail->DataLen);	
 //	printf("-------------------\n%s\n--------------------\n",JSK_InvBuf);
 	
-	// 	for (int i=0; i<40; i++)
-	// 	{
-	// 		DBG_PRINT(("JSK_InvBuf[%d]=0x%02x",i,JSK_InvBuf[i]));
-	// 	}
-	
+	MutexLock();
 	Data2InvDetail(JSK_InvBuf,pInvHead);
-	
+	MutexUnlock();
 	
 	/*签名数据*/
 	INT8 signBuf[JSK_MAKE_INV_SIGN_LEN];
@@ -2770,7 +2628,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead,string &strErr)
 	Base64_Encode_2((UINT8 *)signBuf, pInvDetail->SignLen);
 #endif
 	pInvHead->m_casign=signBuf;
-	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
+//	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
 	
 	
 	/*20位校验码 */
@@ -2875,7 +2733,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoNO(CInvHead *pInvHead, UINT8 *invBuff, UINT3
 	Base64_Encode_2((UINT8 *)signBuf, pInvDetail->SignLen);
 #endif
 	pInvHead->m_casign = signBuf;
-	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
+//	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
 	
 	
 	/*20位校验码 */
@@ -2924,12 +2782,6 @@ INT32 CJSKInfoFunc::GetInvDetailInfoDate(UINT8 *chDate,CInvHead *pInvHead,UINT8 
 	DBG_PRINT(("nLen= %u",nLen));
 	
 	ret =JSK_Proc(GET_INVIOCE_INFO,1,pJSKSendBuf,nLen,pJSKRevBuf,nOutLen,strErr);
-	
-	for (int i=0; i<JSK_QUERY_DATE_LEN;i++)
-	{
-		//DBG_PRINT(("pJSKSendBuf[%d]=Ox%02x",i,pJSKSendBuf[i]));
-	}
-	
 	DBG_PRINT(("ret= %d",ret));
 	if( ret !=JSK_SUCCESS)
 	{
@@ -2939,13 +2791,7 @@ INT32 CJSKInfoFunc::GetInvDetailInfoDate(UINT8 *chDate,CInvHead *pInvHead,UINT8 
 	
 	
 	INT8 tmpBuf[32];
-	//处理接收数据
-	DBG_PRINT(("接收数据"));
-	for (int i=0; i<nOutLen;i++)
-	{
-		//DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	}
-	
+	//处理接收数据	
 	memcpy((void *)&uInvFlag,(void *)pJSKRevBuf,1);
 	DBG_PRINT(("uInvFalg= %u",uInvFlag));
 	
@@ -2960,11 +2806,6 @@ INT32 CJSKInfoFunc::GetInvDetailInfoDate(UINT8 *chDate,CInvHead *pInvHead,UINT8 
 	DBG_PRINT(("pInvHead->m_fphm= %u",pInvHead->m_fphm));
 	
 	/* 开票日期*/
-	for (int k=0;k<7;k++)
-	{
-		//	DBG_PRINT(("pInvDetail->Date[%d]=0x%02x",k,pInvDetail->Date[k]));
-	}
-	
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
 	Hex2Char(pInvDetail->Date,tmpBuf,7);
 	//DBG_PRINT(("tmpBuf= %s",tmpBuf));
@@ -3000,13 +2841,13 @@ INT32 CJSKInfoFunc::GetInvDetailInfoDate(UINT8 *chDate,CInvHead *pInvHead,UINT8 
 	
 	memcpy((void *)JSK_InvBuf,(void *)pInvDetail->DataPtr,pInvDetail->DataLen);
 	
-	DBG_PRINT(("JSK_InvBuf= %s",JSK_InvBuf));
-	
+	MutexLock();
 	Data2InvDetail(JSK_InvBuf,pInvHead);
+	MutexUnlock();
 	
 	/*签名数据*/
 	pInvHead->m_casign=(INT8 *)pInvDetail->SignPtr;
-	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
+//	DBG_PRINT(("pInvHead->m_casign= %s",pInvHead->m_casign.c_str()));
 	
 	
 	/*20位校验码 */
@@ -3057,11 +2898,6 @@ INT32 CJSKInfoFunc::GetMonthCountDate(UINT32 iDate,UINT8 FpType,CTjxxhz *pTjxxhz
 	
     UINT32 nLen =4;
 	DBG_PRINT(("nLen= %u",nLen));
-	for (int i=0; i<nLen;i++)
-	{
-		DBG_PRINT(("pJSKSendBuf[%d]=Ox%02x",i,pJSKSendBuf[i]));
-	}
-	
 	ret =JSK_Proc(GET_MONTH_COUNT_DATE,0,pJSKSendBuf,nLen,pJSKRevBuf,nOutLen,strErr);
 	
 	DBG_PRINT(("ret= %d",ret));
@@ -3073,11 +2909,6 @@ INT32 CJSKInfoFunc::GetMonthCountDate(UINT32 iDate,UINT8 FpType,CTjxxhz *pTjxxhz
 	
 	//处理接收数据
 	DBG_PRINT(("接收数据"));
-	// 	for (int i=0; i<nOutLen;i++)
-	// 	{
-	//DBG_PRINT(("pJSKRevBuf[%d]=Ox%x",i,pJSKRevBuf[i]));
-	// 	}
-	
 	TSumInvCount *pSumInvCount = (TSumInvCount *)pJSKRevBuf;
 	
 	UINT8 uTypeNum = pSumInvCount->uTypeNum ;
@@ -3144,8 +2975,7 @@ INT32 CJSKInfoFunc::GetMonthCountDate(UINT32 iDate,UINT8 FpType,CTjxxhz *pTjxxhz
 //返回值：
 //----------------------------------------------------------
 void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nDataLen)
-{
-	
+{	
 	UINT8 i = 0;
 	UINT8 j = 0;
 	INT32 tmpLen = 0;
@@ -3166,10 +2996,9 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	//2-类别代码\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_fpdm.c_str(),pInvHead->m_fpdm.length());
 	tmpLen +=pInvHead->m_fpdm.length();
-	DBG_PRINT(("tmpLen= %u",tmpLen));
+	DBG_PRINT(("tmpLen= %d",tmpLen));
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//	DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//3-发票号码
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
@@ -3179,19 +3008,16 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//	DBG_PRINT(("tmpLen= %u",tmpLen));
-	
+
 	
 	//4-金税卡日期\n 
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
 	sprintf(tmpBuf, "%u", pInvHead->m_kprq);
 	memcpy((void *)(pDataPtr+tmpLen),(void *)tmpBuf, strlen(tmpBuf));
-	//DBG_PRINT(("pDataPtr= %s",pDataPtr));
 	tmpLen +=strlen(tmpBuf);
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	
 	//5-购方名称\n 
@@ -3200,7 +3026,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//6-购方税号\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_payerCode.c_str(),pInvHead->m_payerCode.length());
@@ -3208,7 +3033,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//7-购方地址电话\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_gfdzdh.c_str(),pInvHead->m_gfdzdh.length());
@@ -3216,7 +3040,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//8-购方银行账号\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_gfyhzh.c_str(),pInvHead->m_gfyhzh.length());
@@ -3224,7 +3047,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//9-机器编号\n 
 	// 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_jqbh.c_str(),pInvHead->m_jqbh.length());
@@ -3234,7 +3056,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//10-主要商品名称\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_zyspmc.c_str(),pInvHead->m_zyspmc.length());
@@ -3242,7 +3063,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//11-报税期\n 
 	if(pInvHead->m_kplx == JSK_RETURN_INV)
@@ -3260,7 +3080,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//12-销方名称\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_xfmc.c_str(),pInvHead->m_xfmc.length());
@@ -3268,7 +3087,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	
 	//13-销方税号\n 
@@ -3277,7 +3095,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//	DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	
 	//14-销方地址电话\n 
@@ -3286,15 +3103,13 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
-	
+
 	//15-销方银行账号\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_xfyhzh.c_str(),pInvHead->m_xfyhzh.length());
 	tmpLen +=pInvHead->m_xfyhzh.length();
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//16-开票人\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_sky.c_str(),pInvHead->m_sky.length());
@@ -3302,7 +3117,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	
 	//17-复核人\n 
@@ -3311,7 +3125,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//18-收款人\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_sky.c_str(),pInvHead->m_sky.length());
@@ -3319,7 +3132,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//19-备注(Base64编码)\n 
 	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
@@ -3330,7 +3142,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	
 	if( (pInvHead->m_kplx == JSK_RETURN_INV) || (pInvHead->m_kplx == JSK_WASTE_RET) )
@@ -3344,7 +3155,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		
 		memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 		tmpLen +=NEWLINE_LEN;
-		//DBG_PRINT(("tmpLen= %u",tmpLen));
 		
 		
 		//21-合计税额\n 
@@ -3372,7 +3182,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		
 		memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 		tmpLen +=NEWLINE_LEN;
-		//DBG_PRINT(("tmpLen= %u",tmpLen));
 		
 		
 		//21-合计税额\n 
@@ -3385,7 +3194,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//22-清单标志("Y"或"N")\n 
 	memcpy((void *)(pDataPtr+tmpLen),pInvHead->m_qdbz.c_str(),pInvHead->m_qdbz.length());
@@ -3393,11 +3201,9 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	
 	memcpy((void *)(pDataPtr+tmpLen),NEWLINE_COMMAND, NEWLINE_LEN);
 	tmpLen +=NEWLINE_LEN;
-	//DBG_PRINT(("tmpLen= %u",tmpLen));
 	
 	//发票明细和清单行格式 
 	//商品名称(92)+ 规格型号(40)+ 计量单位(22)+ 数量(精度18,宽度21)+ 单价(精度18,宽度21)+ 金额(保留2位小数,宽度18)+ 税率(6)+ 税额(保留2位小数,宽度18)+ 序号(8)+ 发票行性质(3)+ 含税价标志(3)
-	
 	pTempDep = pInvHead->pHead;
 	while (pTempDep != NULL)
 	{
@@ -3405,7 +3211,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_SPMC_LEN);
 		memcpy((void *)(pDataPtr+tmpLen), (void *)pTempDep->m_spmc.c_str(), pTempDep->m_spmc.length());
 		tmpLen += JSK_SPMC_LEN;
-		//tmpLen +=  pTempDep->m_spmc.length();
 		
 		//+ 规格型号(40)
 		memset((void *)(pDataPtr+tmpLen), 0x20, JSK_GGXH_LEN);
@@ -3534,7 +3339,6 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 	nDataLen =tmpLen;
 	
 	return ;
-	
 }
 
 
@@ -3545,14 +3349,15 @@ void CJSKInfoFunc::InvDetail2Data(CInvHead *pInvHead, UINT8 *pDataPtr,UINT32 &nD
 //返回值：
 //----------------------------------------------------------
 void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
-{
-	
+{	
 	INT8 chBackupBuf[256];
+	memset((void*)chBackupBuf, 0, sizeof(chBackupBuf));	
 	UINT8 maxLineNum = 23;		//正常从金税盘读取数据解析行数
 	if(flag == 1)
 		maxLineNum += 9;		//增加发票上传时加入的解析行数
 	
 	INT8 chBuf[MAX_INV_INFO_LEN];
+	memset((void*)chBuf, 0, sizeof(chBuf));	
 	
 	UINT8 nLine=0;
     UINT32 tmpLen=0;
@@ -3561,14 +3366,10 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 	INT32 strflag = 0;
 	string tmpStr("");
 	textParse.setText(pDataPtr);
-	
-	//	printf("\n%s\n", pDataPtr);
-	
+		
 	do
 	{
 		tmpStr = "";
-		memset((void*)chBackupBuf, 0, sizeof(chBackupBuf));	
-		memset((void*)chBuf, 0, sizeof(chBuf));	
 		textParse.getSubStrByFlag(tmpStr, NEWLINE_COMMAND);
 		nLine++;
 		//  		DBG_PRINT(("nLine= %u",nLine));
@@ -3637,7 +3438,7 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 			sprintf(chBackupBuf, "%s", tmpStr.c_str());
 			Base64_Decode_2(chBackupBuf, (int *)&tmpLen);
 			pInvHead->m_backup1 = (INT8 *)chBackupBuf;
-			DBG_PRINT(("pInvHead->m_backup1 = %s", pInvHead->m_backup1.c_str()));
+			//DBG_PRINT(("pInvHead->m_backup1 = %s", pInvHead->m_backup1.c_str()));
 			break;
 		case 20: //合计金额
 			pInvHead->m_kpje = double2int(atof(tmpStr.c_str()) * JSK_SUM_EXTENSION);
@@ -3745,14 +3546,12 @@ void CJSKInfoFunc::Data2InvDetail(INT8 *pDataPtr,CInvHead *pInvHead, UINT8 flag)
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Ggxh, JSK_GGXH_LEN);
 		ParseData(chBackupBuf);
 		pInvDet->m_ggxh = chBackupBuf;
-		DBG_PRINT(("pInvDet->m_ggxh=%s",pInvDet->m_ggxh.c_str()));
 		
 		//计量单位(22)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));
 		memcpy(chBackupBuf, pFpmxSum->fpmx[i].Jldw, JSK_JLDW_LEN);
 		ParseData(chBackupBuf);
 		pInvDet->m_spdw = chBackupBuf;
-		DBG_PRINT(("pInvDet->m_spdw=%s",pInvDet->m_spdw.c_str()));
 		
 		//数量(精度18,宽度21)
 		memset(chBackupBuf, 0, sizeof(chBackupBuf));

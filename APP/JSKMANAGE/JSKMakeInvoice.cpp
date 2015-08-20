@@ -474,7 +474,9 @@ INT32 CJSKMakeInvoice::FPSC_Proc(UINT8 czlx, UINT32 &fpzx, string &strInvInfo, s
 	{
 		DBG_PRINT(("here query from DB success"));
 		//将invHead类转换成string类型输出
+		CJSKInfoFunc::MutexLock();
 		CJSKInfoFunc::InvDetail2Data(&invHead, g_invInfo, invLen);
+		CJSKInfoFunc::MutexUnlock();
 		DBG_PRINT(("invLen = %u", invLen));
 	}
 
@@ -778,7 +780,9 @@ void CJSKMakeInvoice::AddInvDetail2Data(CInvHead *pInvHead,UINT8 *pDataPtr,UINT3
 
 void CJSKMakeInvoice::Str2InvHead(INT8 *pDataPtr,CInvHead *pInvHead)
 {
+	CJSKInfoFunc::MutexLock();
 	CJSKInfoFunc::Data2InvDetail(pDataPtr, pInvHead, 1);
+	CJSKInfoFunc::MutexUnlock();
 	CJSKInvManageProc::fplx2fplxdm(pInvHead->m_fplb, pInvHead->m_fplxdm);
 	pInvHead->m_xfmc = g_globalArgLib->m_corpInfo->m_Nsrmc;
 	pInvHead->m_xfsh = g_globalArgLib->m_corpInfo->m_Nsrsbh;

@@ -27,6 +27,7 @@ INT32 CSKJYWXmlBase::BuildProc()
 {
 	DBG_PRINT(("BuildProc Begin"));
 	m_pXmlConstruct.XMLConstructBegin("1.0", "gbk", XML_BUSINESS);
+	DBG_PRINT(("m_ywlx = %s", m_ywlx.c_str()));
 	m_pXmlConstruct.m_RootElement->SetAttribute(XML_BUSINESS_ID, m_ywlx.c_str());
 
 	INT32 retcode = 0;
@@ -41,6 +42,7 @@ INT32 CSKJYWXmlBase::BuildProc()
 		return XML_INTERNAL_ERR_NO;
 	}
 
+	DBG_PRINT(("BuildProc End"));
 	return XML_SUCCESS;
 }
 INT32 CSKJYWXmlBase::ParseProc()
@@ -65,6 +67,7 @@ INT32 CSKJYWXmlBase::ParseProc()
 
 	m_pXmlParse.XMLParseEnd();
 
+	DBG_PRINT(("ParseProc End"));
 	return XML_SUCCESS;
 }
 
@@ -143,7 +146,7 @@ void CSKJYWXmlBase::SetServInfo(string ip, string port, string path)
 
 INT32 CSKJYWXmlBase::NETXml_Proc(string &strErr)
 {
-	DBG_PRINT(("=======YWXml_Proc Begin============="));
+	DBG_PRINT(("=======NETXml_Proc Begin============="));
 	INT32 errcode = 0;
 	errcode = BuildProc();
 	if(errcode != XML_SUCCESS)
