@@ -14,7 +14,7 @@
 #include "CInvServ.h"
 
 #define	MAX_ERR_NUM		5
-
+#define MAX_NET_ERR_NUM		3
 
 class CSaleBusinessFunc
 {
@@ -89,7 +89,7 @@ public:
 	@param[out] strErr   ¥ÌŒÛ–≈œ¢
 	@return  1 SUCCESS£ª 0  FAILURE
 	*/
-	INT32 GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr);
+	INT32 GetErrUpInvInfo(CYWXML_GY &ywxml_gy, CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr);
 };
 
 

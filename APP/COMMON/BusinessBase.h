@@ -208,7 +208,7 @@ public:
 	virtual INT32 SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr)=0;
 	
 	//获取上传错误发票信息 
-	virtual INT32 GetErrUpInvInfo(CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)=0;
+	virtual INT32 GetErrUpInvInfo(CYWXML_GY &ywxml_gy, CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)=0;
 	
 };
 

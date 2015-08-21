@@ -158,10 +158,14 @@ INT32 CServQkxxxz::CommunicationProc(void* pDataIn, void* pDataOut, string &strE
 	UINT8 errBuf[1024];
 	memset(errBuf, 0, sizeof(errBuf));
 	
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexLock();
+#endif
 	int retval=aisino_ssl_transfer_call(SSL_AUTH_CODE,(char*)strTechMsg.c_str(),strTechMsg.size(),
 		(unsigned char*)g_Xml_OutBuf,dataOut.outLen,(unsigned char*)g_Xml_ExchangeBuf,&rec_len,errBuf);
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexUnlock();
+#endif
 	if( retval != 0)
 	{
 		DBG_PRINT(("errBuf = %s", errBuf));

@@ -13,6 +13,7 @@
 
 
 #define SSL_USE_TYPE				1
+#define NET_LOCK_FLAG				1	//网络是否加互斥开关
 
 #define SSL_AUTH_CODE				"htxx_test"
 #define TECH_MSG_APP_ID				"zzs_fp_cgl_cj"

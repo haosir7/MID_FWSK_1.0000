@@ -29,6 +29,8 @@ int main()
 {
 	DBG_PRINT(("Programe started !!!"));
 
+#if( PROJECT_TYPE_MODE != PROJECT_TYPE_ZJJ)
+
 	char buf[64];
 	int ret = access("LIBAWE", 0);
 	if (-1 == ret)
@@ -40,10 +42,12 @@ int main()
 		}
 		
 		memset(buf, 0x00, sizeof(buf));
-		sprintf(buf, "./sqlite3 LIBAWE < libawe.sql");
+		sprintf(buf, "../sqlite3 LIBAWE < libawe.sql");
 		system(buf);
 		usleep(500000);
 	}
+
+#endif
 
 	CDB *m_db = CDB::GetInstance();
 	m_db->Open();
@@ -100,7 +104,9 @@ int main()
 	
 	DBG_PRINT(("g_globalArgLib->m_serialBaudRate = %u", g_globalArgLib->m_serialBaudRate));
 
-#if COMMUNICATE_VERSION != NET_VERSION
+#if( PROJECT_TYPE_MODE != PROJECT_TYPE_ZJJ)
+
+#if (COMMUNICATE_VERSION != NET_VERSION)
 	ret = access("zhhserver", 0);
 	if (-1 == ret)
 	{
@@ -132,6 +138,7 @@ int main()
 //		sprintf(buf, "./zhhserver %s %d &", SERIAL_DEVICE, g_globalArgLib->m_strSerialBaudRate);
 //		system(buf);
 	}
+#endif
 #endif
 
 	if (SUCCESS != pSerialProtocol->InitPort(SERIAL_DEVICE, g_globalArgLib->m_serialBaudRate))

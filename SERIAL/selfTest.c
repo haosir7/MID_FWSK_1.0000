@@ -50,7 +50,7 @@ void show_data(struct sg_io_hdr * hdr)
 
 }
 
-unsigned char data_buffer[2048];
+unsigned char data_buffer_zhq[2048];
 
 unsigned char testCmd[][10] = {{0x12, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00},
 				{}};
@@ -69,7 +69,7 @@ static int sg_cmd(int sg_fd, int cmd, unsigned char * buff)
 	io_hdr.cmdp = testCmd[cmd];
 	io_hdr.dxfer_direction = SG_DXFER_FROM_DEV;
 	io_hdr.dxfer_len = 256;
-	io_hdr.dxferp = data_buffer;
+	io_hdr.dxferp = data_buffer_zhq;
 	io_hdr.mx_sb_len = SENSE_BUFF_LEN;
 	io_hdr.sbp = senseBuff;
 	io_hdr.timeout = DEF_TIMEOUT;

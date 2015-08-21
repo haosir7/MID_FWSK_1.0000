@@ -158,10 +158,14 @@ INT32 CNsrPara::CommunicationProc(void* pDataIn, void* pDataOut, string &strErr)
 	memset(errBuf, 0, sizeof(errBuf));
 	
 	int retval = 0;
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexLock();
+#endif
 	retval=aisino_ssl_transfer_call(SSL_AUTH_CODE,(char*)strTechMsg.c_str(),strTechMsg.size(),
 		(unsigned char*)g_Xml_OutBuf,dataOut.outLen,(unsigned char*)g_Xml_ExchangeBuf,&rec_len,errBuf);
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexUnlock();
+#endif
 	DBG_PRINT(("retval = %d", retval));
 	if( retval != 0)
 	{
@@ -211,10 +215,14 @@ INT32 CNsrPara::SSLConnectTest(string nsrsbh, string strZskl, string &strErr)
 	
 	string bizMsg="hello,I am here";
 	int retval = 0;
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexLock();
+#endif
 	retval=aisino_ssl_transfer_call(SSL_AUTH_CODE,(char*)strTechMsg.c_str(),strTechMsg.size(),
 		(unsigned char*)bizMsg.c_str(),bizMsg.size(),(unsigned char*)g_Xml_ExchangeBuf,&rec_len,errBuf);
+#if NET_LOCK_FLAG == 1
 	CJSKInfoFunc::MutexUnlock();
+#endif
 	DBG_PRINT(("retval = %d", retval));
 	if( retval != 0)
 	{

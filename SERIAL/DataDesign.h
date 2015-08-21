@@ -142,13 +142,14 @@
 
 
 //     weichao
-#define SQL_CMD "sqlite3 LIBAWE < libawe.sql"         //重建数据库命令
+#define SQL_CMD "../sqlite3 LIBAWE < ../libawe.sql"     //重建数据库命令
 #define RMLIB_CMD "rm -rf LIBAWE"                     //删除数据库文件命令
 #define REBOOT_CMD "reboot -f"                        //重启
 #define MOUNT_CMD "mount /dev/sda1 /mnt"              //挂载
-#define CPAWE_CMD "cp /mnt/awe4000r ./awe4000rbak"    //备份
-#define RMAWE_CMD "rm -f awe4000r"                    //删除
-#define MVAWE_CMD "mv awe4000rbak awe4000r"           //重命名
+#define CPAWE_CMD "cp /mnt/awe4000r ../awe4000rbak"		//备份
+#define CPSQL_CMD "cp /mnt/libawe.sql ../libawe.sql"	//备份
+#define RMAWE_CMD "rm -f ../awe4000r"                   //删除
+#define MVAWE_CMD "mv ../awe4000rbak ../awe4000r"       //重命名
 #define UMOUNT_CMD "umount /mnt"                      //解挂载
 
 #endif

@@ -6,6 +6,8 @@
 
 #include "CInvHead.h"
 
+namespace middleware
+{
 #define MAX_ERR_INV_COUNT	10
 class CDataInvServ
 {
@@ -26,8 +28,6 @@ public:
 
 
 
-namespace middleware
-{
 /**
  *@class CInvServ 
  *@brief 发票服务表

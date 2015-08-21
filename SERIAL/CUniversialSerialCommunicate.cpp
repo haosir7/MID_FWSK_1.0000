@@ -9,9 +9,10 @@
 #include "GlobalNetArg.h"
 #include "ClearDepotFunc.h"
 #include "CInvServ.h"
+#include "USBMount.h"
 
 #include "LOGCTRL.h"
-#define NO_POS_DEBUG
+//#define NO_POS_DEBUG
 #include "pos_debug.h"
 
 #include <sys/types.h>
@@ -1740,6 +1741,9 @@ UINT8 CUniversialSerialCommunicate::fpsssc(){
 	else
 	{
 		g_globalArgLib->m_pthreadFlag = 0;
+		strErr = "停止发票上传";
+		m_serialProtocol->Rsp_ERR(strErr);
+		return SUCCESS;
 	}
 
 	DBG_PRINT(("g_globalArgLib->m_pthreadFlag = %u", g_globalArgLib->m_pthreadFlag));
@@ -2180,7 +2184,8 @@ int CUniversialSerialCommunicate::setNetWork(unsigned char isdhcp, const char *i
 	if (1 == isdhcp)
 	{
 		memset(buff, 0x00, sizeof(buff));
-		sprintf(buff, "dhcpcd");
+		//sprintf(buff, "dhcpcd");
+		sprintf(buff, "/sbin/udhcpc -b");
 		system(buff);
 	} 
 	else
@@ -2445,6 +2450,7 @@ UINT8 CUniversialSerialCommunicate::zhqqk(){
 //获取上传出错发票信息
 UINT8 CUniversialSerialCommunicate::getErrUpInv()
 {
+	DBG_PRINT(("----------获取上传出错发票信息----------"));
 	CONNECTTEST_Request request;
 	UINT32 offset=0;
 	memset(&request, 0x00, sizeof(FPBL_Request));
@@ -2470,7 +2476,7 @@ UINT8 CUniversialSerialCommunicate::getErrUpInv()
 
 	CDataInvServ dataInvServ[MAX_ERR_INV_COUNT];
 	UINT32 nCount = 0;
-	if(saleFunc.GetErrUpInvInfo(dataInvServ, nCount, strErr) != SUCCESS)
+	if(saleFunc.GetErrUpInvInfo(*g_YwXmlArg, dataInvServ, nCount, strErr) != SUCCESS)
 	{
 		m_serialProtocol->Rsp_ERR(strErr);
 		return FAILURE;
@@ -2506,6 +2512,7 @@ UINT8 CUniversialSerialCommunicate::getErrUpInv()
 //安全通道连接测试
 UINT8 CUniversialSerialCommunicate::sslConnectTest()
 {
+	DBG_PRINT(("----------安全通道连接测试----------"));
 	CONNECTTEST_Request request;
 	UINT32 offset=0;
 	memset(&request, 0x00, sizeof(FPBL_Request));
@@ -2592,10 +2599,19 @@ UINT8 CUniversialSerialCommunicate::programUpdate(){
 	DBG_PRINT(("----------应用升级----------"));
 
 	DBG_PRINT(("----------挂载----------"));
-	if (system(MOUNT_CMD) != 0)
+// 	if (system(MOUNT_CMD) != 0)
+// 	{
+// 		DBG_PRINT(("----------挂载错误----------"));
+// 		m_serialProtocol->Rsp_ERR("没有找到U盘!\n");
+// 		return FAILURE;
+// 	}
+	INT8 tmpBuf[128];
+	memset(tmpBuf, 0, sizeof(tmpBuf));
+	UINT8 ret = UsbDiskMount(tmpBuf);
+	if (SUCCESS != ret)
 	{
-		DBG_PRINT(("----------挂载错误----------"));
 		m_serialProtocol->Rsp_ERR("没有找到U盘!\n");
+		UsbDiskUnMount();
 		return FAILURE;
 	}
 
@@ -2607,10 +2623,18 @@ UINT8 CUniversialSerialCommunicate::programUpdate(){
 		return FAILURE;
 	}
 
+	if (system(CPSQL_CMD) != 0)
+	{
+		DBG_PRINT(("----------拷贝失败----------"));
+		m_serialProtocol->Rsp_ERR("脚本复制失败!\n");
+		return FAILURE;
+	}
+	
 	DBG_PRINT(("----------删除并更名----------"));
 	system(RMAWE_CMD);
 	system(MVAWE_CMD);
-	system(UMOUNT_CMD);
+	//system(UMOUNT_CMD);
+	UsbDiskUnMount();
 
 	DBG_PRINT(("----------升级成功!重启----------"));
 	m_serialProtocol->FillParament("升级成功!重启！\n", strlen("升级成功!重启！\n"));
