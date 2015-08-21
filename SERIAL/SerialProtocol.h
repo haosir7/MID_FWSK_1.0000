@@ -17,6 +17,9 @@ private:
 	UINT32 m_fill_count;
 	UINT32 m_get_count;
 	UINT8 packageNo;
+		
+	UINT8 m_type_err_flag;	//收到的包头是否为规定的类型 0：是 1：否
+
 #if COMMUNICATE_VERSION==BLUETOOTH_VERSION || PROJECT_TYPE_MODE == PROJECT_TYPE_A5_YTJ
 	INT32 m_printerfd;
 #endif
