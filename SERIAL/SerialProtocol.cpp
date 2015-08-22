@@ -44,6 +44,8 @@ void SerialProtocol::resetAll() {
 	m_get_count = 0;
 	packageNo = 0;
 
+	m_type_err_flag = 0;
+
 	newCmd = true;
 }
 
@@ -140,6 +142,9 @@ UINT8 SerialProtocol::Rev_Pack()
 			if (0x1B != m_revBuf[0] || 
 				(BUSINESS_COMMON_TYPE != m_revBuf[1] && BUSINESS_XML_TYPE != m_revBuf[1] && BUSINESS_CA_TYPE != m_revBuf[1] &&BUSINESS_PRINT_TYPE != m_revBuf[1]))
 			{
+
+				m_type_err_flag = 1;
+
 				DBG_PRINT(("head cmd error"));
 				return SERCMD_HEAD_ERR;
 			}
@@ -681,7 +686,7 @@ void SerialProtocol::Rsp_ERR(UINT8 err)
 //	if (ZC_PROTOCOL==m_revCmd->cmdType)
 	DBG_PRINT(("m_revBuf[1] = 0x%x", m_revBuf[1]));
 	DBG_PRINT(("m_revCmd->cmdType = 0x%x", m_revCmd->cmdType));
-	if (ZC_PROTOCOL==m_revBuf[1] || ZC_PROTOCOL==m_revCmd->cmdType)
+	if (ZC_PROTOCOL==m_revBuf[1] || ZC_PROTOCOL==m_revCmd->cmdType || 1==m_type_err_flag)
 	{
 		m_rspBuf[3] = 0x05;
 		m_rspBuf[4] = err;
