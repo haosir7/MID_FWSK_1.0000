@@ -1802,6 +1802,9 @@ UINT8 CUniversialSerialCommunicate::wlcswh(){
 	DBG_PRINT(("request.ftp_username = %s", request.ftp_username));
 	DBG_PRINT(("request.ftp_passwd = %s", request.ftp_passwd));
 
+	string  strFTP = (INT8 *)request.ftp_serverip;
+	DBG_PRINT(("strFTP= %s",strFTP.c_str()));
+
 	if (0 == request.isdhcp)
 	{
 		if (0 >= if_a_string_is_a_valid_ipv4_address((INT8 *)(request.local_ip)))
@@ -1829,7 +1832,7 @@ UINT8 CUniversialSerialCommunicate::wlcswh(){
 			m_serialProtocol->Rsp_ERR("server_ipaddr is unvalid");
 			return FAILURE;
 		}
-		if (0 >= if_a_string_is_a_valid_ipv4_address((INT8 *)(request.ftp_serverip)))
+		if ((0 >= if_a_string_is_a_valid_ipv4_address((INT8 *)(request.ftp_serverip)))&&(strFTP !=""))
 		{
 			m_serialProtocol->Rsp_ERR("ftp_serverip is unvalid");
 			return FAILURE;
