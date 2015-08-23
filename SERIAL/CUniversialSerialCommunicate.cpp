@@ -2350,9 +2350,9 @@ UINT8 CUniversialSerialCommunicate::hqlxsj(){
 	UINT32 offset=0;
 	memset(&request, 0x00, sizeof(HQLXSJ_Request));
 
-	UINT32 wscfpzs=0;
+	string wscfpzs="";
 	string wscfpsj="";
-	INT64  wscfpljje=0;
+	string  wscfpljje="";
 
 	ret = manageFunc.GetOffLineInvInfo(wscfpzs, wscfpsj, wscfpljje, strErr);
 	if (SUCCESS != ret)
@@ -2363,14 +2363,17 @@ UINT8 CUniversialSerialCommunicate::hqlxsj(){
 
 	INT8 tempbuf[ZDYXX_LEN+1];
 	//未上传的发票张数
-	memset(tempbuf, 0x00, sizeof(tempbuf));
-	sprintf(tempbuf, "%u", wscfpzs);
-	m_serialProtocol->FillParament(tempbuf, WSCFPZS_LEN);
+// 	memset(tempbuf, 0x00, sizeof(tempbuf));
+// 	sprintf(tempbuf, "%u", wscfpzs);
+	m_serialProtocol->FillParament(wscfpzs, WSCFPZS_LEN);
 	//未上传发票时间
 	m_serialProtocol->FillParament(wscfpsj, SZSJ_LEN);
 	//未上传发票累计金额
+	INT64 fpljje_temp = 0;
+	fpljje_temp = (INT64)atoi(wscfpljje.c_str());
+	DBG_PRINT(("fpljje_temp = %lld", fpljje_temp));
 	memset(tempbuf, 0x00, sizeof(tempbuf));
-	sprintf(tempbuf, "%.2f", (double)(wscfpljje/100.0));
+	sprintf(tempbuf, "%.2f", (double)(fpljje_temp/100.0));
 	m_serialProtocol->FillParament(tempbuf, JE_LEN);
 
 	//上传张数
@@ -2484,7 +2487,7 @@ UINT8 CUniversialSerialCommunicate::getErrUpInv()
 
 	if(nCount <= 0)
 	{
-		strErr = "无上传错误发票信息;";
+		strErr = "无上传错误发票信息";
 		m_serialProtocol->Rsp_ERR(strErr);
 		return FAILURE;
 	}

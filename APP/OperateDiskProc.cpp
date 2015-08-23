@@ -34,6 +34,8 @@
 #include "YWXML_SKSBQTYXXCX.h"
 #include "YWXML_BGZSKL.h"
 #include "YWXML_FPBL.h"
+#include "YWXML_HQLXSJ.h"
+#include "YWXML_ERRUPINV.h"
 
 #include "NETXML_WLLQFPJGQR.h"
 #include "NETXML_WLLQFP.h"
@@ -219,7 +221,16 @@ void OperateDisk(string sInputInfo, string &sOutputInfo)
 	{
 		pXmlYW = new CFpbl(&xmlOutput, &xmlInput);
 	}
-	
+	else if(strID == BUSINESS_YWID_ERRUPINV)		//·¢Æ±²¹Â¼
+	{
+		pXmlYW = new CErrUpInv(&xmlOutput, &xmlInput);
+	}
+	else if(strID == BUSINESS_YWID_HQLXSJ)		//·¢Æ±²¹Â¼
+	{
+		pXmlYW = new CHqlxsj(&xmlOutput, &xmlInput);
+	}
+
+
 	ret = pXmlYW->Execute();
 	if(pXmlYW != NULL)
 		delete pXmlYW;

@@ -178,6 +178,7 @@ INT32 CSaleBusinessFunc::FpblProStart(CYWXML_GY &ywxml_gy, UINT32 SDate, UINT32 
 
 INT32 CSaleBusinessFunc::GetErrUpInvInfo(CYWXML_GY &ywxml_gy, CDataInvServ *pDataInvServ, UINT32 &nCount, string &strErr)
 {
+	
 	INT32 ret = SUCCESS;
 	
 	ret = g_pBusBase->GetErrUpInvInfo(ywxml_gy, pDataInvServ, nCount, strErr);
