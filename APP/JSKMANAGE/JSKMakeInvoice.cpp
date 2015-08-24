@@ -273,6 +273,10 @@ INT32 CJSKMakeInvoice::FPZF_Proc(CInvHead *pInvhead, UINT8 zflx, string &strErr)
 	tmpInvHead.m_zfsj = pInvhead->m_zfsj;
 	retcode = tmpInvHead.Update(sqlbuf, &tmpInvHead.m_kplx, &tmpInvHead.m_fpsyh, &tmpInvHead.m_zfsj, &tmpInvHead.m_casign, NULL);
 	DBG_PRINT(("更新DB的INV_HEAD：retcode = %d", retcode));
+	CInvDet invDet;
+	invDet.m_kplx = pInvhead->m_kplx;
+	retcode = invDet.Update(sqlbuf, &invDet.m_kplx, NULL);
+	DBG_PRINT(("更新DB的INV_DET：retcode = %d", retcode));
 
 	if(pInvhead->m_kplx == JSK_WASTE_RET )
 	{

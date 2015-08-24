@@ -109,8 +109,7 @@ public:
 	@param[out] strErr   错误信息
 	@return  1 SUCCESS； 0  FAILURE
 	*/
-	INT32 GetOffLineInvInfo(CYWXML_GY &ywxml_gy, string &wscfpzs, string &wscfpsj, string &wscfpljje, string &strErr);
-
+	INT32 GetOffLineInvInfo(CYWXML_GY &ywxml_gy, UINT32 &wscfpzs, string &wscfpsj, INT64 &wscfpljje, string &strErr);
 
 	/*!
 	@brief 更新未上传发票信息
@@ -125,6 +124,15 @@ public:
 	@return  1 SUCCESS； 0  FAILURE
 	*/
 	INT32 SSLConnectTest(CYWXML_GY &ywxml_gy, string &strErr);
+
+
+	/*!
+	@brief 设备清库
+	@param[in] 
+	@return  1 SUCCESS； 0  FAILURE
+	*/
+	INT32 ClearMidDepot(string &strErr);
+
 
 };
 

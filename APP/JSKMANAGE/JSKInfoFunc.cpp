@@ -425,10 +425,6 @@ INT32 CJSKInfoFunc::JSK_Proc(UINT8 pp1,UINT8 pp2,UINT8 *pInBuf,UINT16 InLen, UIN
 			sprintf(chBuf+JSK_PASSWORD_LEN, "%s", m_jqbh.c_str());
 			Size=JSK_PASSWORD_LEN+JSK_MAX_JQBH_LEN;
 			DBG_PRINT(("Size = %d", Size));
-			DBG_PRINT(("chBuf = %s", chBuf));
-			for(int i=0; i<Size; i++)
-				printf("%02x ", chBuf[i]);
-			printf("\n");
 			
 			ret = JSK_Open_Proc((UINT8 *)chBuf,Size,strErr);
 			DBG_PRINT(("ret= %d",ret))

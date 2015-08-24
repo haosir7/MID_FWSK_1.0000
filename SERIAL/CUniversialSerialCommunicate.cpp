@@ -2353,11 +2353,11 @@ UINT8 CUniversialSerialCommunicate::hqlxsj(){
 	UINT32 offset=0;
 	memset(&request, 0x00, sizeof(HQLXSJ_Request));
 
-	string wscfpzs="";
+	UINT32 wscfpzs=0;
 	string wscfpsj="";
-	string  wscfpljje="";
+	INT64  wscfpljje=0;
 
-	ret = manageFunc.GetOffLineInvInfo(wscfpzs, wscfpsj, wscfpljje, strErr);
+	ret = manageFunc.GetOffLineInvInfo(*g_YwXmlArg, wscfpzs, wscfpsj, wscfpljje, strErr);
 	if (SUCCESS != ret)
 	{
 		m_serialProtocol->Rsp_ERR(strErr);
@@ -2366,17 +2366,17 @@ UINT8 CUniversialSerialCommunicate::hqlxsj(){
 
 	INT8 tempbuf[ZDYXX_LEN+1];
 	//未上传的发票张数
-// 	memset(tempbuf, 0x00, sizeof(tempbuf));
-// 	sprintf(tempbuf, "%u", wscfpzs);
-	m_serialProtocol->FillParament(wscfpzs, WSCFPZS_LEN);
+	memset(tempbuf, 0x00, sizeof(tempbuf));
+	sprintf(tempbuf, "%u", wscfpzs);
+	DBG_PRINT(("wscfpzs = %s", tempbuf));
+	m_serialProtocol->FillParament(tempbuf, WSCFPZS_LEN);
 	//未上传发票时间
+	DBG_PRINT(("wscfpsj = %s", wscfpsj.c_str()));
 	m_serialProtocol->FillParament(wscfpsj, SZSJ_LEN);
 	//未上传发票累计金额
-	INT64 fpljje_temp = 0;
-	fpljje_temp = (INT64)atoi(wscfpljje.c_str());
-	DBG_PRINT(("fpljje_temp = %lld", fpljje_temp));
 	memset(tempbuf, 0x00, sizeof(tempbuf));
-	sprintf(tempbuf, "%.2f", (double)(fpljje_temp/100.0));
+	sprintf(tempbuf, "%.2f", (double)(wscfpljje/100.0));
+	DBG_PRINT(("wscfpljje = %s", tempbuf));
 	m_serialProtocol->FillParament(tempbuf, JE_LEN);
 
 	//上传张数
@@ -2616,6 +2616,7 @@ UINT8 CUniversialSerialCommunicate::programUpdate(){
 	UINT8 ret = UsbDiskMount(tmpBuf);
 	if (SUCCESS != ret)
 	{
+		DBG_PRINT(("----------挂载错误----------"));
 		m_serialProtocol->Rsp_ERR("没有找到U盘!\n");
 		UsbDiskUnMount();
 		return FAILURE;

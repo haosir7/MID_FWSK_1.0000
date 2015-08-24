@@ -395,10 +395,11 @@ INT32 CJSKManageProc::JKSJCX_Proc(CInvKind *pInvKind, string &strErr)
 		pInvKind->m_kpjzrq = dateEnd.FormatString(YYYYMMDD, "%u%02u%02u") + "000000";
 	}
 	
-	
-	DBG_PRINT(("m_maxSign = %lld", pInvKind->m_maxSign));
+	DBG_PRINT(("m_fplx = %u", pInvKind->m_fplx));
+	DBG_PRINT(("m_fplxdm = %s", pInvKind->m_fplxdm.c_str()));
 	DBG_PRINT(("m_Lxkjsj = %u", pInvKind->m_Lxkjsj));
 	DBG_PRINT(("m_Lxssr = %u", pInvKind->m_Lxssr));
+	DBG_PRINT(("m_maxSign = %lld", pInvKind->m_maxSign));
 	DBG_PRINT(("m_maxSum = %lld", pInvKind->m_maxSum));
 	DBG_PRINT(("m_bsqsrq = %s", pInvKind->m_bsqsrq.c_str()));
 	DBG_PRINT(("m_bszzrq = %s", pInvKind->m_bszzrq.c_str()));
