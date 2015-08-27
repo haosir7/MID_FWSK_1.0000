@@ -462,7 +462,7 @@ UINT8 CUniversialSerialCommunicate::jksjcx(){
 	//离线开票正数累计金额
 	memset(tempbuf, 0x00, sizeof(tempbuf));
 	sprintf(tempbuf, "%.2f", (double)(g_globalArgLib->m_invKind->m_maxSum/100.0));
-	m_serialProtocol->FillParament(tempbuf, XIANE_LEN);
+	m_serialProtocol->FillParament(tempbuf, LJXIANE_LEN);
 	//离线开票扩展信息
 	m_serialProtocol->FillParament(g_globalArgLib->m_invKind->m_backup, LXKZXX_LEN);
 	//自定义信息
@@ -1589,7 +1589,7 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljje= %lld",tempi,Tjxxhz[tempi].m_Zsfpljje));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zsfpljje/SUM_EXTENSION));
-		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		m_serialProtocol->FillParament(tempbuf, LJJE_LEN);
 
 		DBG_PRINT(("Tjxxhz[%d].m_Zsfpljse= %lld",tempi,Tjxxhz[tempi].m_Zsfpljse));
 		memset(tempbuf, 0x00, sizeof(tempbuf));
@@ -1598,7 +1598,7 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljje/SUM_EXTENSION));
-		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		m_serialProtocol->FillParament(tempbuf, LJJE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Zffpljse/SUM_EXTENSION));
@@ -1606,7 +1606,7 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fsfpljje/SUM_EXTENSION));
-		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		m_serialProtocol->FillParament(tempbuf, LJJE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fsfpljse/SUM_EXTENSION));
@@ -1614,7 +1614,7 @@ UINT8 CUniversialSerialCommunicate::fptjcx(){
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fffpljje/SUM_EXTENSION));
-		m_serialProtocol->FillParament(tempbuf, JE_LEN);
+		m_serialProtocol->FillParament(tempbuf, LJJE_LEN);
 		
 		memset(tempbuf, 0x00, sizeof(tempbuf));
 		sprintf(tempbuf, "%.2f", ((double)Tjxxhz[tempi].m_Fffpljse/SUM_EXTENSION));
@@ -2377,7 +2377,7 @@ UINT8 CUniversialSerialCommunicate::hqlxsj(){
 	memset(tempbuf, 0x00, sizeof(tempbuf));
 	sprintf(tempbuf, "%.2f", (double)(wscfpljje/100.0));
 	DBG_PRINT(("wscfpljje = %s", tempbuf));
-	m_serialProtocol->FillParament(tempbuf, JE_LEN);
+	m_serialProtocol->FillParament(tempbuf, LJJE_LEN);
 
 	//上传张数
 	memset(tempbuf, 0x00, sizeof(tempbuf));
