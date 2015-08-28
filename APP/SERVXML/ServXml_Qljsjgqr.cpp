@@ -31,7 +31,6 @@ CServQljsjgqr::~CServQljsjgqr()
 INT32 CServQljsjgqr::XmlBusinessBuild(XMLConstruct *pXmlBuild, void *pBusiness, void *pData, void *pNote, string &strErr)
 {
 	DBG_PRINT(("IN CServQljsjgqr::XmlBusinessBuild"));
-	DBG_ASSERT_EXIT((pBusiness != NULL), (" pBusiness == NULL!"));
 
 	return SUCCESS;
 }

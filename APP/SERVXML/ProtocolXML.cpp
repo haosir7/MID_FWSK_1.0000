@@ -3,7 +3,7 @@
 #include "ProtocolXML.h"
 
 #include "LOGCTRL.h"
-#define NO_POS_DEBUG
+//#define NO_POS_DEBUG
 #include "pos_debug.h"
 
 

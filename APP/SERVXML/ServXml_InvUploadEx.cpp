@@ -31,7 +31,7 @@ CInvUploadEx::~CInvUploadEx()
 INT32 CInvUploadEx::XmlBusinessBuild(XMLConstruct *pXmlBuild, void *pBusiness, void *pData, void *pNote, string &strErr)
 {
 	DBG_PRINT(("IN CInvUploadEx::XmlBusinessBuild"));
-	DBG_ASSERT_EXIT((pBusiness != NULL), (" pData == NULL!"));
+//	DBG_ASSERT_EXIT((pBusiness != NULL), (" pData == NULL!"));
 	
 	UINT8 i = 0;
 	

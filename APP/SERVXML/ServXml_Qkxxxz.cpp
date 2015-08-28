@@ -32,7 +32,7 @@ CServQkxxxz::~CServQkxxxz()
 INT32 CServQkxxxz::XmlBusinessBuild(XMLConstruct *pXmlBuild, void *pBusiness, void *pData, void *pNote, string &strErr)
 {
 	DBG_PRINT(("IN CServQkxxxz::XmlBusinessBuild"));
-	DBG_ASSERT_EXIT((pBusiness != NULL), (" pBusiness == NULL!"));
+//	DBG_ASSERT_EXIT((pBusiness != NULL), (" pBusiness == NULL!"));
 /*	
 	CServWlcb *p = (CServWlcb *)pBusiness;
 
