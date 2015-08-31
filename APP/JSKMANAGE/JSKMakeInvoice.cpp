@@ -59,6 +59,7 @@ INT32 CJSKMakeInvoice::FPKJ_Proc(CInvHead *pInvhead, string &strErr, UINT8 waste
 	UINT8 tmpBuf[16];
 	INT8 sqlbuf[128];
 
+
 	if(wasteflag == 0)
 	{
 		DBG_PRINT(("kplx = %u", pInvhead->m_kplx));
