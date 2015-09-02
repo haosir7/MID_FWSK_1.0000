@@ -1441,6 +1441,7 @@ UINT8 CUniversialSerialCommunicate::sjcb(){
 	if(jzlx == 1)
 	{
 		ret = decFunc.NetDeclareProc(*g_YwXmlArg, strErr);
+		DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	}
 	else if(jzlx ==2)
 	{

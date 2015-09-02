@@ -27,21 +27,27 @@ INT32 CDeclareBusinessFunc::NetDeclareProc(CYWXML_GY &ywxml_gy, string &strErr)
 	UINT8 jzlx = 1;//1：网络（税控盘与金税盘）
 
 	ret = g_pBusBase->SKSBQTYXXCX_Business(ywxml_gy, xxlx, strSksbxx, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	ret = g_pBusBase->ErrParse(ret, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	if(ret != SUCCESS)
 	{
 		return FAILURE;
 	}
 	
 	ret = g_pBusBase->SJCB_Business(ywxml_gy, jzlx, strSQ, strFphz, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	ret = g_pBusBase->ErrParse(ret, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	if(ret != SUCCESS)
 	{
 		return FAILURE;
 	}
 
 	ret = g_pBusBase->WLCB_Business(ywxml_gy, strSQ, strFphz, strSksbxx, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 	ret = g_pBusBase->ErrParse(ret, strErr);
+	DBG_PRINT(("ret= %d strErr= %s",ret,strErr.c_str()));
 
 	return ret;
 }

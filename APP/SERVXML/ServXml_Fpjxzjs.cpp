@@ -69,6 +69,8 @@ INT32 CServFpjxzjs::XmlBusinessBuild(XMLConstruct *pXmlBuild, void *pBusiness, v
 	DBG_PRINT(("DCBB : %s", g_gNetArg->m_dcbb.c_str()));
 
 	CJSKInvManageProc::fplxdm2fplx(p->m_fplxdm, p->m_invtype);
+	DBG_PRINT(("p->m_FlagJSorXZ= %u",p->m_FlagJSorXZ));
+
 	if (1 == p->m_FlagJSorXZ)//发票卷解锁标识
 	{
 		pXmlBuild->AddNode(pXmlBuild->m_parentElement[1], "FPJS");//发票卷解锁，可能不存在，局端优先处理解锁发票卷
@@ -100,7 +102,6 @@ INT32 CServFpjxzjs::XmlBusinessBuild(XMLConstruct *pXmlBuild, void *pBusiness, v
 		pXmlBuild->AddText(p->m_flag);//写盘锁死发票卷密文信息 40字节，要做base64
 		DBG_PRINT(("FLAG : %s", p->m_flag.c_str()));
 	}
-	
 	else if (0 == p->m_FlagJSorXZ)//发票卷下载标识
 	{
 		pXmlBuild->AddNode(pXmlBuild->m_parentElement[1], "FPXZ");//发票卷下载，可能不存在
