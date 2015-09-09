@@ -478,7 +478,7 @@ insert into sysarg values(54,'',0,'',0);
 insert into sysarg values(55,'',0,'',0);
 insert into sysarg values(56,'',0,'',0);
 
-insert into sysarg values(61,'',9600,'',0);
+insert into sysarg values(61,'',115200,'',0);
 insert into sysarg values(100,'',0,'88888888',0);
 insert into sysarg values(101,'',0,'23456789',0);
 

@@ -98,7 +98,7 @@ INT32 CJSKManageProc::SKPXXCX_Proc(CUserInfo *pUserInfo, string &strCurTime, str
 	INT32 retcode = 0;
 	INT8 tmpbuf[64];
 	TDateTime curDate;
-	CTax tax[MAX_TAX_NUM];
+	CTax tax[MAX_TAX_NUM+1];
 	UINT8 verBuf[MAX_VER_LEN+1];
 	UINT8 timeBuf[MAX_DATETIME_LEN+1];
 	UINT8 sksbbhBuf[MAX_SKSBBH_LEN+1];
@@ -109,6 +109,7 @@ INT32 CJSKManageProc::SKPXXCX_Proc(CUserInfo *pUserInfo, string &strCurTime, str
 	{
 		return retcode;
 	}
+
 	memset(tmpbuf, 0, sizeof(tmpbuf));
 	sprintf(tmpbuf, "0000%02u", pUserInfo->m_Nsrxz);
 	pUserInfo->m_blxx = tmpbuf;

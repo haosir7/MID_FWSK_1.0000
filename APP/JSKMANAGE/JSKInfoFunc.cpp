@@ -502,6 +502,11 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
     //处理接收数据	
     TaxCardInfo	*pTaxCardInfo = (TaxCardInfo *)pJSKRevBuf;
 	
+	for (int i=0; i<nOutLen; i++)
+	{
+	//	DBG_PRINT(("pJSKRevBuf[%d]=0x%02x",i,pJSKRevBuf[i]));
+	}
+
 	pUserInfo->m_Nsrmc=(INT8 *)pTaxCardInfo->CorpName;
 	DBG_PRINT(("pUserInfo->m_Nsrmc= %s",pUserInfo->m_Nsrmc.c_str()));
 	
@@ -566,7 +571,11 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	UINT32 taxNum =pTaxCardInfo->AuthTaxRate[0];
 	pUserInfo->m_Slgs = taxNum;
 	DBG_PRINT(("pUserInfo->m_Slgs= %u",	pUserInfo->m_Slgs));
-	
+	if (pUserInfo->m_Slgs >MAX_TAX_NUM)
+	{
+		strErr="获取授权税率个数超限";
+		return JSK_FAILURE;
+	}
 	UINT32 taxSL=0;
 	for (int j=0; j<pUserInfo->m_Slgs; j++)
 	{
@@ -585,7 +594,11 @@ INT32 CJSKInfoFunc::GetCorpInfo(CUserInfo *pUserInfo,CTax *pTax,string &strErr)
 	UINT32 typeNum =pTaxCardInfo->invName[0];
 	pUserInfo->m_Fplxgs = typeNum;
 	DBG_PRINT(("pUserInfo->m_Fplxgs= %u",	pUserInfo->m_Fplxgs));
-	
+	if (pUserInfo->m_Fplxgs >INVKIND_MAX_NUM)
+	{
+		strErr="获取发票类型个数超限";
+		return JSK_FAILURE;
+	}
 	UINT32 uFplx=0;
 	pUserInfo->m_Fplxsz = "";
 	for (int k=0; k<pUserInfo->m_Fplxgs; k++)
@@ -1288,7 +1301,41 @@ INT32 CJSKInfoFunc::BSPRegister(string &strErr)
 }
 
 
+//----------------------------------------------------------
+//功能	：修改金税盘时钟 
+//输入	：
+//输出	：
+//返回值：
+//----------------------------------------------------------
+INT32 CJSKInfoFunc::UpdateJSPClock(UINT8* JSPClock, string &strErr)
+{
+	
+	INT32 ret=JSK_SUCCESS;
+	UINT16 nOutLen=0;
+	UINT8 *pJSKSendBuf =NULL;
+    UINT8 *pJSKRevBuf =NULL;
+	JSK_NewBuf(&pJSKSendBuf,&pJSKRevBuf);
+	
+	INT8 tmpBuf[32];
 
+	//日期
+	memset((void *)tmpBuf,0x00,sizeof(tmpBuf));
+	Char2Hex((UINT8 *)tmpBuf,(INT8 *)JSPClock,JSK_PASSWORD_LEN);
+	for (int i=0; i<JSK_UPDATE_CLOCK;i++)
+	{
+		DBG_PRINT(("tmpBuf[%d]= 0x%02x",i,tmpBuf[i]));
+	}
+
+	memcpy((void *)pJSKSendBuf, (void *)tmpBuf, JSK_PASSWORD_LEN);
+	
+	//接收数据
+	
+	ret =JSK_Proc(UPDATE_JSK_CLOCK,0,pJSKSendBuf,JSK_UPDATE_CLOCK,pJSKRevBuf,nOutLen,strErr);
+	DBG_PRINT(("ret= %d",ret));
+	
+	JSK_DelBuf(pJSKSendBuf,pJSKRevBuf);
+	return ret;	
+}
 //----------------------------------------------------------
 //功能	：更新企业信息 
 //输入	：
@@ -1826,6 +1873,7 @@ INT32 CJSKInfoFunc::GetJSKInvVolInfo(CInvVol *invVol, UINT32 &nInvNum, string &s
 {
 	INT32 ret=JSK_SUCCESS;
 	INT8 tmpBuf[64];
+	string tmpStr("");
 	//DBG_ENTER("GetJSKInvVolInfo");
 	//DBG_ASSERT_EXIT(pInvVol != NULL), (" pInvVol == NULL "));
 	
@@ -1901,6 +1949,11 @@ INT32 CJSKInfoFunc::GetJSKInvVolInfo(CInvVol *invVol, UINT32 &nInvNum, string &s
 		//DBG_PRINT(("tmpBuf= %s",tmpBuf));
 		invVol[i].m_buyDate =tmpBuf;
 		DBG_PRINT(("invVol[%d].m_buyDate = %s", i,invVol[i].m_buyDate.c_str()));
+		if(invVol[i].m_buyDate.length() >= 8)
+		{
+			tmpStr = invVol[i].m_buyDate.substr(0,8);
+			invVol[i].m_date = atoi(tmpStr.c_str());
+		}
 		
 		/*发票代码10或12位ASCII码*/
 		invVol[i].m_code =pTInvVol->InvVolum[i].TypeCode;

@@ -489,7 +489,7 @@ UINT8 CUniversialSerialCommunicate::sqslcx(){
 	DBG_PRINT(("fplxdm = %s", (INT8 *)request.fplxdm));
 	DBG_PRINT(("jqbh = %s", (INT8 *)request.jqbh));
 
-	CTax taxArray[MAX_TAX_NUM];
+	CTax taxArray[MAX_TAX_NUM+1];
 	UINT8 taxNum;
 	g_YwXmlArg->m_nsrsbh = (INT8 *)(request.nsrsbh);
 	g_YwXmlArg->m_sksbbh = (INT8 *)(request.skpbh);
@@ -1137,7 +1137,7 @@ UINT8 CUniversialSerialCommunicate::skpbspzhcz(){
 	DBG_PRINT(("汇总信息 = %s ", (INT8 *)request.hzxx));
 	memcpy(request.qtxx, m_serialProtocol->m_revCmd->revData+offset, ZH_QTXX_LEN);
 	offset += ZH_QTXX_LEN;
-	DBG_PRINT(("汇总信息 = %s ", (INT8 *)request.qtxx));
+	DBG_PRINT(("其他信息 = %s ", (INT8 *)request.qtxx));
 
 	memcpy(request.jqbh, m_serialProtocol->m_revCmd->revData+offset, JQBH_LEN);
 	offset += JQBH_LEN;
@@ -1151,6 +1151,10 @@ UINT8 CUniversialSerialCommunicate::skpbspzhcz(){
 	g_YwXmlArg->m_bspkl = (INT8 *)(request.bspkl);
 	g_YwXmlArg->m_fplxdm = (INT8 *)(request.fplxdm);
 	g_YwXmlArg->m_jqbh = (INT8 *)(request.jqbh);
+    
+	string  strTime("");
+	strTime=(INT8 *)(request.qtxx);
+	DBG_PRINT(("strTime= %s",strTime.c_str()));
 
 	DBG_PRINT(("jzlx= %u",jzlx));
 	if (jzlx ==SKPBSP_CZLX_SJCB)
@@ -1172,8 +1176,8 @@ UINT8 CUniversialSerialCommunicate::skpbspzhcz(){
 	else if (jzlx ==SKPBSP_CZLX_JZSZ)
 	{
 		//4：校准税控设备时钟
-		strErr = "金税盘不支持该操作";
-		ret = FAILURE;
+		//strErr = "金税盘不支持该操作";
+		ret = manageFunc.UpdateClockProc(*g_YwXmlArg,strTime,strErr);
 	}
 
 	if (SUCCESS != ret)
